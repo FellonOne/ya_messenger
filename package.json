@@ -1,0 +1,24 @@
+{
+  "name": "ya_messenger",
+  "version": "1.0.0",
+  "description": "Современный YaMessenger",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FellonOne/ya_messenger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FellonOne/ya_messenger/issues"
+  },
+  "homepage": "https://github.com/FellonOne/ya_messenger#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
