@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Page</title>
+    <title>YaMessenger | Authorization</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
@@ -14,29 +14,12 @@
     <link rel="stylesheet" href="styles/auth.css" />
   </head>
   <body>
-    <main class="messenger">
-      <section class="authentication messenger__authentication">
-        <div class="authentication__container">
-          <header class="authentication__header">
-            <h2 class="authentication__title">Авторизация</h2>
-          </header>
-          <form class="authentication__form">
-            <div class="authentication__inputs">
-              <input class="base-input" placeholder="Ваш логин" />
-              <input class="base-input" placeholder="Ваш пароль" />
-            </div>
+    <main class="messenger"></main>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="module">
+      import { RenderAuthPage } from "./scripts/Pages/Auth/Auth.mjs";
 
-            <footer class="authentication__buttons data_controls">
-              <a class="data_controls__parallel" href="#">Регистрация</a>
-            <button
-              class="data-controls__button data-controls__button_type_submit"
-            >
-              Войти
-            </button>
-            </footer>
-          </form>
-        </div>
-      </section>
-    </main>
+      RenderAuthPage();
+    </script>
   </body>
 </html>

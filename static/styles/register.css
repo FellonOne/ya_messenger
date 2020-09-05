@@ -109,3 +109,16 @@ body {
 .data-controls__button_type_submit:hover {
   background-color: #0d9c12;
 }
+
+
+/**
+  FORM FORM FORM
+*/
+.text-error {
+  width: 100%;
+  color: #e91e63;
+  font-family: "Roboto-Light";
+  font-weight: bold;
+  padding-bottom: 10px;
+  font-size: 0.9em;
+}

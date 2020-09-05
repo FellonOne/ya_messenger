@@ -309,3 +309,15 @@ body {
   height: 30px;
   line-height: 30px;
 }
+
+/**
+  FORM FORM FORM
+*/
+.text-error {
+  width: 100%;
+  color: #e91e63;
+  font-family: "Roboto-Light";
+  font-weight: bold;
+  padding-bottom: 10px;
+  font-size: 0.9em;
+}

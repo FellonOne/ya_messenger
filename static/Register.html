@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Page</title>
+    <title>YaMessenger | Register</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
@@ -14,30 +14,12 @@
     <link rel="stylesheet" href="styles/register.css" />
   </head>
   <body>
-    <main class="messenger">
-      <section class="authentication messenger__authentication">
-        <div class="authentication__container">
-          <header class="authentication__header">
-            <h2 class="authentication__title">Регистрация</h2>
-          </header>
-          <form class="authentication__form">
-            <div class="authentication__inputs">
-              <input class="base-input" placeholder="Придумайте логин" />
-              <input class="base-input" placeholder="Придумайте пароль" />
-              <input class="base-input" placeholder="Повторите пароль" />
-            </div>
+    <main class="messenger"></main>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="module">
+      import { RenderRegisterPage } from "./scripts/Pages/Register/Register.mjs";
 
-            <footer class="authentication__buttons data_controls">
-              <a class="data_controls__parallel" href="#">Авторизация</a>
-            <button
-              class="data-controls__button data-controls__button_type_submit"
-            >
-              Регистрация
-            </button>
-            </footer>
-          </form>
-        </div>
-      </section>
-    </main>
+      RenderRegisterPage();
+    </script>
   </body>
 </html>

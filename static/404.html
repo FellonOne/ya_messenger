@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Page</title>
+    <title>YaMessenger</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
@@ -14,22 +14,12 @@
     <link rel="stylesheet" href="styles/404.css" />
   </head>
   <body>
-    <main class="messenger">
-      <section class="error messenger__error">
-        <div class="error_container">
-          <header class="error__code">
-            <span class="error__code-title">404</span>
-          </header>
-          <div class="error__message">
-            <p class="error__message-text">
-              Такой страницы не <br>существует :(
-            </p>
-          </div>
-          <footer class="error__links">
-            <a href="#">На главную</a>
-          </footer>
-        </div>
-      </section>
-    </main>
+    <main class="messenger"></main>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="module">
+      import { RenderErrorPage } from "./scripts/Pages/ErrorPage/ErrorPage.mjs";
+
+      RenderErrorPage("404");
+    </script>
   </body>
 </html>

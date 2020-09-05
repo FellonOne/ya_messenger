@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Page</title>
+    <title>YaMessenger | Profile</title>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
@@ -14,59 +14,12 @@
     <link rel="stylesheet" href="styles/settings.css" />
   </head>
   <body>
-    <main class="messenger">
-      <section class="settings messenger__settings">
-        <div class="settings__container">
-          <header class="settings__header">
-            <h5 class="settings__title">Настройки</h5>
-            <button class="settings__close-button close-button">
-              <i title="Закрыть" class="fa fa-times"></i>
-            </button>
-          </header>
-          <form class="settings__form">
-            <div class="settings__account account">
-              <div class="account__container">
-                <div class="account__avatar avatar-container">
-                  <div class="avatar-container__image"></div>
-                </div>
-                <div class="account__name">
-                  <input class="account__input" value="Василий" />
-                  <input class="account__input" value="Пупкин" />
-                </div>
-              </div>
-            </div>
+    <main class="messenger"></main>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="module">
+      import { RenderSettingsPage } from "./scripts/Pages/Settings/Settings.mjs";
 
-            <div class="settings__bio-control bio-control">
-              <div class="bio-control__container">
-                <p class="bio-control__title">
-                  Заполнить краткую информацию "О себе":
-                </p>
-                <textarea class="bio-control__textarea">Ваше био</textarea>
-              </div>
-            </div>
-
-            <div class="settings__password-control password-control">
-              <div class="password-control__container">
-                <input class="base-input" placeholder="Старый пароль" />
-                <input class="base-input" placeholder="Новый пароль" />
-              </div>
-            </div>
-
-            <footer class="settings__footer data-controls">
-              <button
-                class="data-controls__button data-controls__button_type_cancel"
-              >
-                Отменить и закрыть
-              </button>
-              <button
-                class="data-controls__button data-controls__button_type_submit"
-              >
-                Сохранить и закрыть
-              </button>
-            </footer>
-          </form>
-        </div>
-      </section>
-    </main>
+      RenderSettingsPage();
+    </script>
   </body>
 </html>
