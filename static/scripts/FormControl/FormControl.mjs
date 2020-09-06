@@ -1,3 +1,5 @@
+import { isEmpty } from "../Validator/Util.mjs";
+
 export class FormControl {
   constructor(formElement, fields) {
     this.formElement = formElement;
@@ -25,10 +27,13 @@ export class FormControl {
       }
     }
 
+    this._focus();
+    this._blur();
+
     return this;
   }
 
-  focus() {
+  _focus() {
     this.fields.forEach((key) => {
       this.formElement[key].addEventListener("focus", this._eventFocusFunction);
     });
@@ -36,7 +41,7 @@ export class FormControl {
     return this;
   }
 
-  blur() {
+  _blur() {
     this.fields.forEach((key) => {
       this.formElement[key].addEventListener("blur", this._eventBlurFunction);
     });
@@ -54,6 +59,9 @@ export class FormControl {
 
   _eventSubmitFunction(event) {
     event.preventDefault();
+
+    const submitter = event.submitter;
+    if (isEmpty(submitter.dataset.submit)) return;
 
     const form = event.target;
     const result = {};

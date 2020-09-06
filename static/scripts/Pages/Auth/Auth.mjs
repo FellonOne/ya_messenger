@@ -21,6 +21,7 @@ export function RenderAuthPage() {
           "data-controls__button data-controls__button_type_submit",
         buttonContent: "Войти",
         buttonStyle: "",
+        buttonSubmit: true,
       }),
     }),
   });
@@ -30,10 +31,7 @@ export function RenderAuthPage() {
 
 function initFormControl() {
   const formElement = document.querySelector(`.${foromClassName}`);
-  const form = new FormControl(formElement, ["login", "password"])
-    .init("submit")
-    .focus()
-    .blur();
+  const form = new FormControl(formElement, ["login", "password"]).init();
 
   form.subscribe(authorizeUser);
 

@@ -1,4 +1,4 @@
-const onlyLettersPattern = /^[A-Za-z]+$/;
+const onlyLettersPattern = /^[A-Za-zа-яёА-ЯЁ]+$/;
 const badWords = ["дурак", "идиот"];
 
 /**
@@ -39,9 +39,7 @@ export function hasLengthField(elem) {
     isSet(elem) ||
     isString(elem) ||
     Array.isArray(elem) ||
-    (typeof elem === "object" &&
-      elem.length !== undefined &&
-      Number.isInteger(elem.length))
+    (typeof elem === "object" && elem.length !== undefined)
   );
 }
 
@@ -74,7 +72,7 @@ export function isEmpty(value) {
 
 /**
  * Содержит ли value только буквы
- * @param value
+ * @param {String} value
  */
 export function hasOnlyLetters(value) {
   return isString(value) && !isEmpty(value) && value.match(onlyLettersPattern);

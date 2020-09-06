@@ -56,8 +56,7 @@ export class Validator {
   }
 
   get hasError() {
-    if (Object.keys(this.errors).length > 0) return true;
-    return false;
+    return Object.keys(this.errors).length > 0;
   }
 
   _maxLength(num) {
@@ -105,41 +104,6 @@ export class Validator {
       this.errors[
         this.field
       ] = `У нас тут культурное общество, не используется брань!`;
-    return this;
-  }
-}
-
-export class ValidatorRules {
-  constructor() {
-    this.rules = [];
-  }
-
-  static init() {
-    return new ValidatorRules();
-  }
-
-  maxLength(num) {
-    this.rules.push(`${Validator.rules.maxLength}:${num}`);
-    return this;
-  }
-
-  minLength(num) {
-    this.rules.push(`${Validator.rules.minLength}:${num}`);
-    return this;
-  }
-
-  required() {
-    this.rules.push(`${Validator.rules.required}:true`);
-    return this;
-  }
-
-  onlyLetters() {
-    this.rules.push(`${Validator.rules.onlyLetters}:true`);
-    return this;
-  }
-
-  noBadWords() {
-    this.rules.push(`${Validator.rules.noBadWords}:true`);
     return this;
   }
 }

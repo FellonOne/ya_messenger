@@ -31,6 +31,7 @@ export function RenderSettingsPage() {
           "data-controls__button data-controls__button_type_submit",
         buttonContent: "Сохранить и выйти",
         buttonStyle: "",
+        buttonSubmit: "true",
       }),
     }),
   });
@@ -47,10 +48,7 @@ function initFormControl() {
     "password",
     "confirmPassword",
     "bio",
-  ])
-    .init()
-    .focus()
-    .blur();
+  ]).init();
 
   form.subscribe(sendPersonData);
 

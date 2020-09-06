@@ -21,6 +21,7 @@ export function RenderRegisterPage() {
           "data-controls__button data-controls__button_type_submit",
         buttonContent: "Зарегистрироваться",
         buttonStyle: "",
+        buttonSubmit: true,
       }),
     }),
   });
@@ -34,10 +35,7 @@ function initFormControl() {
     "login",
     "password",
     "confirmPassword",
-  ])
-    .init("submit")
-    .focus()
-    .blur();
+  ]).init();
 
   form.subscribe(registerUserAccount);
 

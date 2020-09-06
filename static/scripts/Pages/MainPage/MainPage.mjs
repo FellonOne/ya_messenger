@@ -2,7 +2,7 @@
  * Page Template
  */
 import { MainPageTemplate } from "./MainPage.tmpl.mjs";
-import { MainPageContactsTemplate } from "./MainPageContacts.tmpl.mjs";
+import { ContactsAsideList } from "./ContactsAside/ContactsAside.mjs";
 
 /**
  * Menu
@@ -63,14 +63,13 @@ export function RenderMainPage(pageType) {
   const contactsList = getContactsList();
 
   const Template = Handlebars.compile(MainPageTemplate);
-  const ContactsList = Handlebars.compile(MainPageContactsTemplate);
 
   const root = document.querySelector(".messenger");
   root.innerHTML = Template({
     ContactSearchBar: ContactSearchBar({
       menuButtonClass: menuConfig.menuButtonClass,
     }),
-    ContactsList: ContactsList({
+    ContactsList: ContactsAsideList({
       contactsList,
     }),
     ConversationBlock:
