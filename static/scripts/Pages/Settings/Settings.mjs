@@ -34,6 +34,11 @@ export function RenderSettingsPage() {
         buttonSubmit: "true",
       }),
     }),
+    CloseButton: MainButton({
+      buttonClasses: "settings__close-button close-button",
+      buttonContent: `<i title="Закрыть" class="fa fa-times"></i>`,
+      buttonStyle: "",
+    }),
   });
 
   initFormControl();

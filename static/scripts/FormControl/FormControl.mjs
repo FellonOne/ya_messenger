@@ -59,7 +59,7 @@ export class FormControl {
 
   _eventSubmitFunction(event) {
     event.preventDefault();
-
+   
     const submitter = event.submitter;
     if (isEmpty(submitter.dataset.submit)) return;
 

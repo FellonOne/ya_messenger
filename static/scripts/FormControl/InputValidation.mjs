@@ -12,7 +12,6 @@ export function inputValidation(formValidation, ev) {
   if (res.hasError) {
     showError(res.errors, form, false);
   } else {
-    console.log(`HIDE ERROR`);
     hideError(form, "text-error", input.name);
   }
 }

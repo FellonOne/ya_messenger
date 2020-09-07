@@ -1,133 +1,22 @@
+/**
+ * @param { Template } Messages 
+ * @param { Template } ConversationControlForm
+ */
 export const ActiveConversationTemplate = `
-<section class="conversation">
-<header class="interlocutor">
-  <div class="interlocutor__person">
-    <div class="interlocutor__person-status"></div>
-    <div class="interlocutor__person-name">Василий Григоривич</div>
-  </div>
-</header>
+  <section class="conversation">
+    <header class="interlocutor">
+      <div class="interlocutor__person">
+        <div class="interlocutor__person-status"></div>
+        <div class="interlocutor__person-name">Василий Григоривич</div>
+      </div>
+    </header>
 
-<div class="messages">
-  <div class="messages__black-container">
-    <ul class="messages__list">
-      <li class="messages__element messages__element_sender">
-        <div class="messages__container">
-          <p class="messages__text messages__text_sender">
-            <span
-              >Идейные соображения высшего порядка, а также укрепление и
-              развитие структуры способствует подготовки и реализации
-              существенных финансовых и административных условий. Задача
-              организации, в особенности же реализация намеченных
-              плановых заданий позволяет выполнять важные задания по
-              разработке соответствующий условий активизации.</span
-            >
-          </p>
-          <small class="messages__time messages__text_sender"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
+    <div class="messages">
+      <div class="messages__black-container">
+        {{{ Messages }}}
+      </div>
+    </div>
 
-      <li class="messages__element messages__element_sender">
-        <div class="messages__container">
-          <p class="messages__text messages__text_sender">
-            <span>Privte</span>
-          </p>
-          <small class="messages__time messages__text_sender"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
-
-      <li class="messages__element messages__element_sender">
-        <div class="messages__container">
-          <p class="messages__text messages__text_sender">
-            Идейные соображения высшего порядка, а также укрепление и
-            развитие структуры способствует подготовки и реализации
-            существенных финансовых и административных условий. Задача
-            организации, в особенности же реализация намеченных плановых
-            заданий позволяет выполнять важные задания по разработке
-            соответствующий условий активизации.
-          </p>
-          <small class="messages__time messages__text_sender"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
-
-      <li class="messages__element messages__element_sender">
-        <div class="messages__container">
-          <p class="messages__text messages__text_sender">
-            Идейные соображения высшего порядка, а также укрепление и
-            развитие структуры способствует подготовки и реализации
-            существенных финансовых и административных условий. Задача
-            организации, в особенности же реализация намеченных плановых
-            заданий позволяет выполнять важные задания по разработке
-            соответствующий условий активизации.
-          </p>
-          <small class="messages__time messages__time_sender"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
-
-      <li class="messages__element messages__element_recipient">
-        <div class="messages__container">
-          <p class="messages__text messages__text_recipient">
-            Идейные соображения высшего порядка, а также укрепление и
-            развитие структуры способствует подготовки и реализации
-            существенных финансовых и административных условий. Задача
-            организации, в особенности же реализация намеченных плановых
-            заданий позволяет выполнять важные задания по разработке
-            соответствующий условий активизации.
-          </p>
-          <small class="messages__time messages__time_recipient"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
-
-      <li class="messages__element messages__element_recipient">
-        <div class="messages__container">
-          <p class="messages__text messages__text_recipient">
-            Идейные соображения высшего порядка, а также укрепление и
-            развитие структуры способствует подготовки и реализации
-            существенных финансовых и административных условий. Задача
-            организации, в особенности же реализация намеченных плановых
-            заданий позволяет выполнять важные задания по разработке
-            соответствующий условий активизации.
-          </p>
-          <small class="messages__time messages__time_recipient"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
-
-      <li class="messages__element messages__element_sender">
-        <div class="messages__container">
-          <p class="messages__text messages__text_sender">
-            Идейные соображения высшего порядка, а также укрепление и
-            развитие структуры способствует подготовки и реализации
-            существенных финансовых и административных условий. Задача
-            организации, в особенности же реализация намеченных плановых
-            заданий позволяет выполнять важные задания по разработке
-            соответствующий условий активизации.
-          </p>
-          <small class="messages__time messages__time_sender"
-            >22:34, Понедельник</small
-          >
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div class="typing">
-  <input
-    placeholder="Ваше сообщение"
-    class="message-field typing__input"
-  />
-  <button class="send-message typing__button">Отправить</button>
-</div>
-</section>
+    {{{ ConversationControlForm }}}
+  </section>
 `

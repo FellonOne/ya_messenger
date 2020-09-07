@@ -1,8 +1,9 @@
+/**
+ * @param { Template } CloseButton
+ */
 export const LeftMenuTemplate = `
   <nav class="left-menu">
-    <button class="left-menu__close-button close-button">
-      <i class="fa fa-times"></i>
-    </button>
+    {{{ CloseButton }}}
 
     <header class="left-menu__account account">
       <div class="account__container">
