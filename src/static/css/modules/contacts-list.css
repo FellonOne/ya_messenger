@@ -1,0 +1,161 @@
+/**
+  LEFt ASIDE
+*/
+.left-aside {
+  width: 320px;
+  min-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.contacts-controls {
+  padding: 0px 19px 0px 16px;
+  background: var(--main-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  min-height: 60px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.contacts-controls__menu {
+  color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  line-height: 20px;
+  cursor: pointer;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.contacts-controls__menu:active {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.contacts-controls__menu i {
+  font-size: 24px;
+}
+
+.contacts-controls__search {
+  width: 250px;
+  border-radius: 3px;
+  background-color: white;
+  border: none;
+  outline: none;
+  padding: 5px 5px 5px 15px;
+  height: 25px;
+}
+
+.contacts {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: var(--main-color);
+  overflow-y: auto;
+  scrollbar-color: var(--scroll-thumb-color) var(--scroll-bg-color);
+  scrollbar-width: thin;
+  height: 100%;
+}
+
+.contacts::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+
+.contacts::-webkit-scrollbar-button {
+  background-color: var(--scroll-bg-color);
+  height: 0px;
+}
+
+.contacts::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb-color);
+}
+
+.contacts__list {
+  margin: 0;
+  padding: 0;
+}
+
+.person {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px 19px 15px 16px;
+  cursor: pointer;
+}
+
+.person:hover {
+  background: #00bcd45c;
+}
+
+.person__avatar {
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 100%;
+}
+
+.person__information {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 18px;
+}
+
+.person__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.person__name {
+  color: white;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.person__last-messege-date {
+  font-family: "Roboto-Light", Arial, Helvetica, sans-serif;
+  color: rgba(255, 255, 255, 0.56);
+  line-height: 20px;
+}
+
+.person__last-messege {
+  padding: 0;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+}
+/*# sourceMappingURL=contacts-list.css.map */

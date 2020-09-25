@@ -1,0 +1,174 @@
+.messenger {
+  display: flex;
+  height: 100%;
+  min-width: 100%;
+}
+
+
+/***
+  CONVERSATION
+***/
+.conversation {
+  width: calc(100% - 320px);
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.interlocutor {
+  background-color: var(--main-color);
+  min-height: 60px;
+  display: flex;
+  justify-content: start;
+  padding: 0 20px;
+}
+.interlocutor__person {
+  display: flex;
+  align-items: center;
+}
+.interlocutor__person-status {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #93ff93;
+}
+.interlocutor__person-name {
+  color: white;
+  font-family: "Roboto-Regulart", Arial, Helvetica, sans-serif;
+  margin-left: 10px;
+}
+
+.messages {
+  background-image: url("../images/bg.png");
+  overflow-y: auto;
+  scrollbar-color: var(--scroll-thumb-color) var(--scroll-bg-color);
+  scrollbar-width: thin;
+  height: 100%;
+}
+.messages::-webkit-scrollbar {
+  background-color: var(--scroll-bg-color);
+  width: 5px;
+}
+.messages::-webkit-scrollbar-button {
+  background-color: var(--scroll-bg-color);
+  height: 0px;
+}
+.messages::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb-color);
+}
+
+.messages__black-container {
+  min-height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.36);
+}
+
+.messages__list {
+  list-style: none;
+  margin: 0;
+  padding: 20px 0 0px 0;
+  min-height: 100%;
+}
+
+.messages__element {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0px 20px 20px;
+}
+.messages__element_recipient {
+  align-items: flex-end;
+}
+
+.messages__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 522px;
+}
+
+.messages__text {
+  background: var(--sender-message-bg-color);
+  color: white;
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+  padding: 11px;
+  border-radius: 5px;
+  text-align: left;
+  margin: 0;
+  font-size: 0.93rem;
+  position: relative;
+}
+.messages__text::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  background: red;
+  z-index: 99999;
+}
+
+.messages__text_recipient {
+  background: var(--recipient-message-bg-color);
+}
+
+.messages__time {
+  color: white;
+  font-family: "Roboto-Light", Arial, Helvetica, sans-serif;
+  text-align: right;
+  padding-top: 5px;
+}
+.messages__time_recipient {
+  text-align: left;
+}
+
+.typing__form {
+  background: var(--main-color);
+  display: flex;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 12px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+.message-field {
+  border-radius: 3px;
+  border: 0;
+  outline: none;
+  font-family: "Roboto-Regulaer", Arial, Helvetica, sans-serif;
+  resize: none;
+  overflow-y: auto;
+  padding: 7px 10px;
+}
+.typing__input {
+  height: 30px;
+  width: 100%;
+}
+
+.send-message {
+  background: var(--main-button-color);
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: white;
+  padding: 0 12px;
+  font-family: "Roboto-Medium", Arial, Helvetica, sans-serif;
+  border-radius: 3px;
+}
+
+.typing__button {
+  width: 91px;
+  margin-left: 10px;
+  height: 30px;
+  line-height: 30px;
+}
+
+/**
+  FORM FORM FORM
+*/
+.text-error {
+  width: 100%;
+  color: #e91e63;
+  font-family: "Roboto-Light";
+  font-weight: bold;
+  padding-bottom: 10px;
+  font-size: 0.9em;
+}

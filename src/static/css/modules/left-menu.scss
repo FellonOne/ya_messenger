@@ -1,0 +1,110 @@
+/****
+ Left Menu
+**/
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.77);
+  z-index: 100;
+  display: none;
+}
+.backdrop_open {
+  display: block;
+}
+
+.left-menu {
+  position: fixed;
+  width: 320px;
+  background: white;
+  height: 100%;
+  z-index: 999;
+  transform: translateX(-320px);
+  transition: transform 0.22s ease-in;
+
+  display: flex;
+  flex-direction: column;
+}
+.left-menu_open {
+  transform: translateX(0px);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 40px;
+  font-weight: normal;
+  cursor: pointer;
+  outline: none;
+}
+
+.left-menu__close-button {
+  position: absolute;
+  top: 10px;
+  left: 335px;
+  display: none;
+}
+.left-menu__close-button_open {
+  display: block;
+}
+
+.left-menu__account {
+  padding: 25px 30px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+}
+
+.account__container {
+  display: flex;
+  justify-content: start;
+}
+
+.account__avatar-menu {
+  background: #3f51b5;
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+}
+
+.account__name-block {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6rem;
+  font-family: "Roboto-Medium", Arial, Helvetica, sans-serif;
+  color: rgba(0, 0, 0, 0.77);
+  margin-left: 25px;
+}
+
+.left-menu__navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 25px 30px;
+  height: 100%;
+}
+
+.messenger-navigation {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: white;
+}
+
+.messenger-navigation__element {
+  margin-bottom: 10px;
+}
+.messenger-navigation__element a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+}
+
+.left-menu__footer a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+}
+/****************************/

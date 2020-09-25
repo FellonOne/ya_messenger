@@ -1,0 +1,42 @@
+.messenger {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  min-width: 100%;
+}
+
+.error {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 154px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: var(--main-color);
+  width: 100%;
+  color: white;
+}
+
+.error__code-title {
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+  font-size: 16rem;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+.error__message-text {
+  font-size: 3.5rem;
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+  padding: 0;
+}
+
+.error__links a {
+  text-decoration: none;
+  color: white;
+  font-size: 3rem;
+  font-family: "Roboto-Light", Arial, Helvetica, sans-serif;
+}
+/*# sourceMappingURL=errorPage.css.map */

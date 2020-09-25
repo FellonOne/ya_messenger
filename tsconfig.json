@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/scripts",
+    "allowJs": true,
+    "strict": true,
+    "sourceMap": true,
+    "target": "es2017",
+    "module": "ES2015",
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "moduleResolution": "node"
+  },
+  "include": ["./src/**/*.ts"]
+}

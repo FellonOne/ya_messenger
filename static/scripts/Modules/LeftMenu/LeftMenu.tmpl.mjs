@@ -7,7 +7,7 @@ export const LeftMenuTemplate = `
 
     <header class="left-menu__account account">
       <div class="account__container">
-        <div class="account__avatar"></div>
+        <div class="account__avatar-menu"></div>
         <div class="account__name">
           <span>Василий</span>
           <span>Пупкин</span>
