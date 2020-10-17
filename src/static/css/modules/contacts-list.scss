@@ -68,6 +68,46 @@
 .contacts__list {
   margin: 0;
   padding: 0;
+  width: 100%;
+}
+
+.contacts__loading {
+  margin-top: 200px;
+  display: flex;justify-content: center;
+  color: white;
+  font-family: "Roboto-Medium", Arial, Helvetica, sans-serif;
+  font-size: 1.1rem;
+}
+
+.create-chat {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-chat__button {
+  padding: 0px 12px;
+  background: #0f2835;
+  color: white;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  height: 26px;
+  &:hover {
+    background: #0a5780;
+  }
+
+  &:active {
+    background: #020f16;
+  }
+}
+
+.create-chat__input {
+  border: none;
+  outline: none;
+  height: 26px;
+  padding-left: 8px;
 }
 
 .person {
@@ -80,22 +120,29 @@
 }
 
 .person__avatar {
-  width: 50px;
-  height: 50px;
-  background: white;
+  width: 75px;
+  height: 75px;
+  background: brown;
   border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto-Regular;
+  font-size: 1.6rem;
+  color: white;
 }
 
 .person__information {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   padding-left: 18px;
 }
 
 .person__header {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .person__name {

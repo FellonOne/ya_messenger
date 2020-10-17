@@ -14,6 +14,12 @@
   display: flex;
   flex-direction: column;
 }
+.conversation__full {
+  width: 100%;
+  background-color: var(--main-color);
+  align-items: center;
+  justify-content: center;
+}
 
 .interlocutor {
   background-color: var(--main-color);
@@ -22,8 +28,23 @@
   justify-content: start;
   padding: 0 20px;
 }
+
+.interlocutor__back-button {
+  color: #ffffff5e;
+  margin-right: 26px;
+  font-size: 2rem;
+  line-height: 22px;
+}
+
 .interlocutor__person {
   display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.interlocutor__person-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 .interlocutor__person-status {
@@ -36,6 +57,22 @@
   color: white;
   font-family: "Roboto-Regulart", Arial, Helvetica, sans-serif;
   margin-left: 10px;
+}
+
+.open-users-chat {
+  color: white;
+  font-family: "Roboto-Regular", Arial, Helvetica, sans-serif;
+
+  &:hover {
+    color: wheat;
+  }
+}
+
+.users-in-chat {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding:30px;
 }
 
 .messages {
@@ -60,7 +97,13 @@
 .messages__black-container {
   min-height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.36);
+  background: rgba(0, 0, 0, 0.76);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Roboto-Bold", Arial, Helvetica, sans-serif;
+  font-size: 4rem;
 }
 
 .messages__list {
@@ -171,4 +214,21 @@
   font-weight: bold;
   padding-bottom: 10px;
   font-size: 0.9em;
+}
+
+
+.right-aside {
+  width: 320px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid #6e848f;
+}
+
+.add-user-in-chat {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #6e848f38;;
 }

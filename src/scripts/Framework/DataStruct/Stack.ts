@@ -48,8 +48,7 @@ export class Stack<T> {
    * @return {T}
    */
   public pop(): T {
-    if (this.isEmptyStack() || this.tail === null)
-      throw Error("stack is empty");
+    if (this.isEmptyStack() || this.tail === null) throw Error('stack is empty');
     const res = this.tail;
 
     this.tail = this.tail.prev;
@@ -65,8 +64,7 @@ export class Stack<T> {
    * @return {T}
    */
   public peek(): T {
-    if (this.isEmptyStack() || this.tail === null)
-      throw Error("stack is empty");
+    if (this.isEmptyStack() || this.tail === null) throw Error('stack is empty');
 
     return this.tail.value;
   }

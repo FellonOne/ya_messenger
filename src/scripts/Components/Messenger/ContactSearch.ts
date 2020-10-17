@@ -1,4 +1,4 @@
-import { Component } from "../../Framework/Component";
+import { Component } from '../../Framework/Component';
 
 export class ContactSearch extends Component {
   render(): string {
@@ -14,7 +14,7 @@ export class ContactSearch extends Component {
             name="contacts_search"
             placeholder="Поиск по контактам"
           />
-        </form>
+        </form> 
       </header>
     `;
   }

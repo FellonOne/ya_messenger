@@ -1,4 +1,4 @@
-import { isObject } from "./isObject";
+import { isObject } from './isObject';
 
 type CustomObject = {
   [key: string]: unknown;
@@ -11,21 +11,17 @@ type CustomObject = {
  * @param {string} path
  * @param {unknown} defaultValue
  */
-export function Get(
-  obj: CustomObject,
-  path: string,
-  defaultValue: unknown = undefined
-): unknown {
+export function Get(obj: CustomObject, path: string, defaultValue: unknown = undefined): unknown {
   if (!path) {
     throw Error(`Empty path in Get method`);
   }
 
-  const keys = path.split(".");
+  const keys = path.split('.');
   if (!isObject(obj)) return defaultValue;
 
   let result: CustomObject = obj;
 
-  for (let key of keys) {
+  for (const key of keys) {
     result = result[key] as CustomObject;
 
     if (result === undefined) {

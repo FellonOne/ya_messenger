@@ -1,19 +1,19 @@
-import { ComponentClass } from "../src/scripts/Framework/Router/Route";
-import { Router } from "../src/scripts/Framework/Router/Router";
-import { fakeHistory } from "./mock/fakeHistory";
-import { FakeRoute } from "./mock/fakeRoute";
+import { ComponentClass } from '../src/scripts/Framework/Router/Route';
+import { Router } from '../src/scripts/Framework/Router/Router';
+import { fakeHistory } from './mock/fakeHistory';
+import { FakeRoute } from './mock/fakeRoute';
 
-describe("### Testing Router Module", () => {
-  it("TEST #1: register Route and find them", () => {
+describe('### Testing Router Module', () => {
+  it('TEST #1: register Route and find them', () => {
     const router = new Router(fakeHistory, FakeRoute, {} as Window);
-    router.use("/test", {} as ComponentClass, {}, []);
-    expect(router.getRoute("/test")).toBeTruthy();
+    router.use('/test', {} as ComponentClass, {}, []);
+    expect(router.getRoute('/test')).toBeTruthy();
   });
 
-  it("TEST #2: testing back functional", () => {
+  it('TEST #2: testing back functional', () => {
     const router = new Router(fakeHistory, FakeRoute);
-    router.use("/", {} as ComponentClass, {}, []);
-    router.use("/test", {} as ComponentClass, {}, []);
+    router.use('/', {} as ComponentClass, {}, []);
+    router.use('/test', {} as ComponentClass, {}, []);
     router.start();
 
     const mockBackFn = jest.fn();
@@ -22,7 +22,7 @@ describe("### Testing Router Module", () => {
     fakeHistory.back = mockBackFn;
     fakeHistory.forward = mockForwardFn;
 
-    router.go("/test");
+    router.go('/test');
 
     router.back();
     router.forward();

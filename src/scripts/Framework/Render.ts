@@ -1,7 +1,7 @@
-import { Component } from "./Component";
+import { Component } from './Component';
 
 export class Render {
-  private readonly rootId = "root";
+  private readonly rootId = 'root';
 
   constructor(private rootElement: HTMLElement | null = null) {}
 
@@ -9,8 +9,7 @@ export class Render {
    * Выбираем рутовый элемент
    */
   init(): this {
-    if (this.rootElement === null)
-      this.rootElement = document.querySelector(`#${this.rootId}`);
+    if (this.rootElement === null) this.rootElement = document.querySelector(`#${this.rootId}`);
     return this;
   }
 
@@ -18,8 +17,7 @@ export class Render {
    * Удаляем всех потомков у рутового элемента
    */
   private removeChildrenInRoot() {
-    if (this.rootElement === null)
-      throw Error(`ROOT element is null; check correct id name`);
+    if (this.rootElement === null) throw Error(`ROOT element is null; check correct id name`);
 
     while (this.rootElement?.firstChild) {
       this.rootElement.removeChild(this.rootElement.firstChild);

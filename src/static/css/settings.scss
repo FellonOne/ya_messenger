@@ -55,6 +55,10 @@
   margin: 0;
 }
 
+.settings__avatar-changer {
+  margin-top: 40px;
+}
+
 .close-button {
   background: none;
   border: none;
@@ -76,6 +80,8 @@
   height: 175px;
   background: var(--main-button-color);
   border-radius: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .avatar-container__input {
@@ -171,6 +177,11 @@
   margin-left: 20px;
 
   transition: all 0.25s ease-out;
+}
+
+.data-controls__file-input {
+  color: white;
+  height: 20px;
 }
 
 .data-controls__button_type_cancel {

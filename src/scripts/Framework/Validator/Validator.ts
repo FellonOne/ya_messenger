@@ -1,5 +1,5 @@
-import { hasLengthField, hasOnlyLetters, hasBadWords } from "./Util";
-import { isEmpty } from "../Utils/isEmpty";
+import { hasLengthField, hasOnlyLetters, hasBadWords } from './Util';
+import { isEmpty } from '../Utils/isEmpty';
 
 type RulesObject = {
   [key: string]: {
@@ -22,7 +22,13 @@ export class Validator {
     this.errors = {};
   }
 
-  static validate(rulesObject: RulesObject, userData: ValidatorUserData) {
+  static validate(
+    rulesObject: RulesObject,
+    userData: ValidatorUserData,
+  ): {
+    hasError: boolean;
+    errors: { [key: string]: string };
+  } {
     const result = {
       errors: {},
       hasError: false,
@@ -35,11 +41,11 @@ export class Validator {
       const validator = new Validator(field, userData[field]);
 
       for (const rule of fieldRules.rules) {
-        const fName: string = rule.split(":")[0];
-        const value: string = rule.split(":")[1];
+        const fName: string = rule.split(':')[0];
+        const value: string = rule.split(':')[1];
 
         const validatorFn = validator.getFnByName(fName);
-        if (typeof validatorFn === "function") validatorFn(value);
+        if (typeof validatorFn === 'function') validatorFn(value);
       }
 
       if (validator.hasError) {
@@ -54,82 +60,76 @@ export class Validator {
     return result;
   }
 
-  static get rules() {
+  static get rules(): { [key: string]: string } {
     return {
-      maxLength: "_maxLength",
-      minLength: "_minLength",
-      onlyLetters: "_onlyLetters",
-      noBadWords: "_noBadWords",
-      required: "_required",
+      maxLength: '_maxLength',
+      minLength: '_minLength',
+      onlyLetters: '_onlyLetters',
+      noBadWords: '_noBadWords',
+      required: '_required',
     };
   }
 
   public getFnByName(fName: string): unknown {
     switch (fName) {
-      case "_maxLength":
+      case '_maxLength':
         return this._maxLength.bind(this);
-      case "_minLength":
+      case '_minLength':
         return this._minLength.bind(this);
-      case "_onlyLetters":
+      case '_onlyLetters':
         return this._onlyLetters.bind(this);
-      case "_noBadWords":
+      case '_noBadWords':
         return this._noBadWords.bind(this);
-      case "_required":
+      case '_required':
         return this._required.bind(this);
       default:
         throw Error(`unknown function name = ${fName}, in Validator`);
     }
   }
 
-  get hasError() {
+  get hasError(): boolean {
     return Object.keys(this.errors).length > 0;
   }
 
-  _maxLength(num: number) {
+  private _maxLength(num: number): this {
     if (this.hasError) return this;
 
     const hasLength = hasLengthField(this.value);
     const badMaxLength = !(hasLength && this.value.length <= num);
 
-    if (badMaxLength)
-      this.errors[this.field] = `Длина поля превышает ${num} символов`;
+    if (badMaxLength) this.errors[this.field] = `Длина поля превышает ${num} символов`;
     return this;
   }
 
-  _minLength(num: number) {
+  private _minLength(num: number): this {
     if (this.hasError) return this;
 
     const hasLength = hasLengthField(this.value);
     const badMinLength = !(hasLength && this.value.length >= num);
 
-    if (badMinLength)
-      this.errors[this.field] = `Длина поля должна быть больше ${num} символов`;
+    if (badMinLength) this.errors[this.field] = `Длина поля должна быть больше ${num} символов`;
     return this;
   }
 
-  _required() {
+  private _required(): this {
     if (this.hasError) return this;
 
-    if (isEmpty(this.value))
-      this.errors[this.field] = `Поле обязательно для заполнения`;
+    if (isEmpty(this.value)) this.errors[this.field] = `Поле обязательно для заполнения`;
     return this;
   }
 
-  private _onlyLetters() {
+  private _onlyLetters(): this {
     if (this.hasError) return this;
 
-    if (!hasOnlyLetters(this.value))
-      this.errors[this.field] = `Поле должно содержать только буквы`;
+    if (!hasOnlyLetters(this.value)) this.errors[this.field] = `Поле должно содержать только буквы`;
     return this;
   }
 
-  _noBadWords() {
+  private _noBadWords(): this {
     if (this.hasError) return this;
 
     if (hasBadWords(this.value))
-      this.errors[
-        this.field
-      ] = `У нас тут культурное общество, не используется брань!`;
+      this.errors[this.field] = `У нас тут культурное общество, не используется брань!`;
     return this;
   }
 }

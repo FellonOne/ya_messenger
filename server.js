@@ -1,13 +1,13 @@
-const express = require("express");
-const PORT = 80;
+const express = require('express');
+const PORT = 3000;
 
 function init() {
   const app = express();
 
-  app.use(express.static("./dist"));
+  app.use(express.static('./dist'));
 
-  app.get("*", (req, res, next) => {
-    res.sendFile(__dirname + "/dist/index.html");
+  app.get('*', (req, res, next) => {
+    res.sendFile(__dirname + '/dist/index.html');
   });
 
   return app;

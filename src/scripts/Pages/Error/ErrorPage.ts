@@ -1,5 +1,5 @@
-import { Component } from "../../Framework/Component";
-import { ComponentList } from "../../Framework/types";
+import { Component } from '../../Framework/Component';
+import { ComponentList } from '../../Framework/types';
 
 export type ErrorProps = {
   errorCode?: string;
@@ -11,7 +11,13 @@ export class ErrorPage extends Component {
   public static defaultProps: ErrorProps;
 
   constructor(props: ErrorProps = {}, componentList: ComponentList[] = []) {
-    super(Object.assign(ErrorPage.defaultProps, props), componentList);
+    super(
+      {
+        ...ErrorPage.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
   }
 
   render(): string {
@@ -27,7 +33,10 @@ export class ErrorPage extends Component {
             </p>
           </div>
           <footer class="error__links">
-            <a href="#">На главную</a>
+            <RouterComponent
+              linkText="На главную"
+              page="/"
+            />
           </footer>
         </div>
       </section>
@@ -36,7 +45,7 @@ export class ErrorPage extends Component {
 }
 
 ErrorPage.defaultProps = {
-  errorCode: "404",
-  errorMessage: "Такой страницы не <br /> существует :(",
-  route: "",
+  errorCode: '404',
+  errorMessage: 'Такой страницы не <br /> существует :(',
+  route: '',
 };

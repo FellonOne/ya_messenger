@@ -1,5 +1,5 @@
-import { Component } from "../../../Framework/Component";
-import { ComponentList } from "../../../Framework/types";
+import { Component } from '../../../Framework/Component';
+import { ComponentList } from '../../../Framework/types';
 
 export type ButtonProps = {
   textContent: string;
@@ -16,7 +16,13 @@ export class Button extends Component {
   public static defaultProps: ButtonProps;
 
   constructor(props: ButtonProps, componentList: ComponentList[]) {
-    super(Object.assign(Button.defaultProps, props), componentList);
+    super(
+      {
+        ...Button.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
   }
 
   /**
@@ -28,18 +34,17 @@ export class Button extends Component {
     if (props.onClick !== null && props.buttonId !== null) {
       this._buttonElement = document.getElementById(props.buttonId);
 
-      if (this._buttonElement === null)
-        throw Error(`incorrect Button id => ${props.buttonId}`);
+      if (this._buttonElement === null) throw Error(`incorrect Button id => ${props.buttonId}`);
 
-      this._buttonElement.addEventListener("click", props.onClick);
+      this._buttonElement.addEventListener('click', props.onClick);
     }
   }
 
-  componentDidMount(props: ButtonProps) {
+  componentDidMount(props: ButtonProps): void {
     this.setClickEvent(props);
   }
 
-  componentDidUpdate(oldProps: ButtonProps, newProps: ButtonProps) {
+  componentDidUpdate(oldProps: ButtonProps, newProps: ButtonProps): void {
     this.setClickEvent(newProps);
   }
 
@@ -49,9 +54,9 @@ export class Button extends Component {
    * @param oldProps
    * @param newProps
    */
-  componentWillUpdate(oldProps: ButtonProps, newProps: ButtonProps): boolean {
+  componentWillUpdate(oldProps: ButtonProps): boolean {
     if (oldProps.onClick !== null && oldProps.buttonId !== null) {
-      this._buttonElement?.removeEventListener("click", oldProps.onClick);
+      this._buttonElement?.removeEventListener('click', oldProps.onClick);
     }
 
     return true;
@@ -71,10 +76,10 @@ export class Button extends Component {
 }
 
 Button.defaultProps = {
-  textContent: "Уппс, забыли установить текст кнопке :)",
+  textContent: 'Уппс, забыли установить текст кнопке :)',
   isSubmit: false,
-  attrs: "",
-  classNames: "",
+  attrs: '',
+  classNames: '',
   onClick: null,
   buttonId: null,
 };

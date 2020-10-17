@@ -1,6 +1,6 @@
-import { Component } from "../Framework/Component";
-import { ComponentList } from "../Framework/types";
-import { pagesRoutes } from "../pages.js";
+import { Component } from '../Framework/Component';
+import { ComponentList } from '../Framework/types';
+import { pagesRoutes } from '../pages.js';
 
 type LoginFormProps = {
   formClassName: string;
@@ -11,7 +11,13 @@ export class LoginForm extends Component {
   public static defaultProps: LoginFormProps;
 
   constructor(props: LoginFormProps, componentList: ComponentList[]) {
-    super(Object.assign(LoginForm.defaultProps, props), componentList);
+    super(
+      {
+        ...LoginForm.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
   }
 
   render(): string {
@@ -23,16 +29,18 @@ export class LoginForm extends Component {
           name="login"
           type="text"
           placeholder="Ваш логин"
-          withValidation="true" 
+          withValidation="true"
         />
-        
+
         <BaseInput
           classNames="base-input"
           name="password"
           type="password"
           placeholder="Ваш пароль"
-          withValidation="true" 
+          withValidation="true"
         />
+
+        <span class="default__text-error text-error" style="padding-bottom: 0"></span>
       </div>
 
       <footer class="authentication__buttons data_controls">
@@ -43,7 +51,7 @@ export class LoginForm extends Component {
         />
         <Button
           textContent="Войти"
-          classNames="data-controls__button data-controls__button_type_submit" 
+          classNames="data-controls__button data-controls__button_type_submit"
           isSubmit="true"
         />
       </footer>
@@ -53,6 +61,6 @@ export class LoginForm extends Component {
 }
 
 LoginForm.defaultProps = {
-  formClassName: "",
+  formClassName: '',
   registerRoute: pagesRoutes.REGISTER,
 };

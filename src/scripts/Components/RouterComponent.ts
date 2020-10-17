@@ -1,9 +1,9 @@
-import { Component } from "../Framework/Component";
-import { Router } from "../Framework/Router/Router";
-import { ComponentList } from "../Framework/types";
-import { GetRandomString } from "../Framework/Utils/RandomString";
-import { pagesRoutes } from "../pages";
-import { router } from "../router";
+import { Component } from '../Framework/Component';
+import { Router } from '../Framework/Router/Router';
+import { ComponentList } from '../Framework/types';
+import { GetRandomString } from '../Framework/Utils/RandomString';
+import { pagesRoutes } from '../pages';
+import { router } from '../router';
 
 type RouterComponentProps = {
   linkText: string;
@@ -19,10 +19,13 @@ export class RouterComponent extends Component {
   private _link: HTMLElement | null | undefined;
 
   constructor(props: RouterComponentProps, componentList: ComponentList[]) {
-    super({
-      ...RouterComponent.defaultProps,
-      ...props,
-    });
+    super(
+      {
+        ...RouterComponent.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
     this.goToComp = this.goToComp.bind(this);
   }
 
@@ -31,12 +34,12 @@ export class RouterComponent extends Component {
     this._link = document.getElementById(this.routeId);
 
     if (!this._link) return;
-    this._link.addEventListener("click", this.goToComp);
+    this._link.addEventListener('click', this.goToComp);
   }
 
   removeListener(): void {
     if (this._link) {
-      this._link.removeEventListener("click", this.goToComp);
+      this._link.removeEventListener('click', this.goToComp);
     }
   }
 
@@ -45,32 +48,26 @@ export class RouterComponent extends Component {
     ev.stopPropagation();
 
     const router = this.props.router as Router;
-    if (!router) throw Error("incorrect router in RouterComponent");
+    if (!router) throw Error('incorrect router in RouterComponent');
 
-    router.go(("/" + this.props.page) as string);
+    router.go(('/' + this.props.page) as string);
   }
 
-  componentDidMount(props: RouterComponentProps) {
+  componentDidMount(): void {
     this.addListener();
   }
 
-  componentWillUpdate(
-    oldProps: RouterComponentProps,
-    newProps: RouterComponentProps
-  ): boolean {
+  componentWillUpdate(): boolean {
     this.removeListener();
     return true;
   }
 
-  componentDidUpdate(
-    oldProps: RouterComponentProps,
-    newProps: RouterComponentProps
-  ): void {
+  componentDidUpdate(): void {
     this.removeListener();
     this.addListener();
   }
 
-  componentWillUnmount(props: RouterComponentProps) {
+  componentWillUnmount(): void {
     this.removeListener();
   }
 
@@ -84,8 +81,8 @@ export class RouterComponent extends Component {
 }
 
 RouterComponent.defaultProps = {
-  linkText: "На главную",
+  linkText: 'На главную',
   page: pagesRoutes.MAIN_PAGE,
   router: router,
-  classNames: "",
+  classNames: '',
 };

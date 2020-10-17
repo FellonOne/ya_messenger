@@ -1,25 +1,29 @@
-import { Tree } from "../DataStruct/Tree";
-import { Stack } from "../DataStruct/Stack";
-import { ComponentList, ComponentProps, IComponent } from "../types";
-import { Get } from "../Utils/Get";
-import { autoCloseTag, TagList } from "./TagList";
-import { Trim } from "../Utils/Trim";
+import { Tree } from '../DataStruct/Tree';
+import { Stack } from '../DataStruct/Stack';
+import { ComponentList, ComponentProps, IComponent } from '../types';
+import { Get } from '../Utils/Get';
+import { autoCloseTag, TagList } from './TagList';
+import { Trim } from '../Utils/Trim';
+
+enum NODE_TYPE {
+  FRAGMENT = 11,
+}
+
+export type CompileResult = {
+  tree: Tree<HTMLElement | Text | DocumentFragment> | null;
+  childrenComponents: unknown[];
+};
 
 export class StringTemplator {
   private readonly _propPattern = /\{\{(.*?)\}\}/gi;
-  private readonly _attrPattern = /[A-Za-z]+\=\"(.*?)\"/gi;
+  private readonly _attrPattern = /[A-Za-z-]+\=\"(.*?)\"/gi;
   private readonly _tagPattern = /<\/?[^>]+(>|$)/g;
+  private readonly _childrenComponents: unknown[] = [];
 
-  constructor(
-    private template: string,
-    private componentList: ComponentList[]
-  ) {}
+  constructor(private template: string, private componentList: ComponentList[]) {}
 
-  public compile(
-    props: ComponentProps
-  ): Tree<HTMLElement | Text | DocumentFragment> | null {
+  public compile(props: ComponentProps): CompileResult {
     const preparedTemplate = this.prepareTemplate(this.template.trim(), props);
-
     /**
      * Начинаем парсить строку, чтоб построить дерево
      */
@@ -28,9 +32,10 @@ export class StringTemplator {
 
     // Если же тегов в шаблоне нет, то возвращаем текстовую HTML ноду
     if (tagsArray === null || tagsArray.length === 0) {
-      return new Tree<HTMLElement | Text>(
-        this.createTextElement(preparedTemplate)
-      );
+      return {
+        tree: new Tree<HTMLElement | Text>(this.createTextElement(preparedTemplate)),
+        childrenComponents: [],
+      };
     }
 
     const stack = new Stack<RegExpMatchArray>();
@@ -44,44 +49,35 @@ export class StringTemplator {
       const regTag = this._tagPattern.exec(preparedTemplate);
 
       if (regTag === null)
-        throw Error(
-          `Ooops, something wrong in Templator => "${preparedTemplate}"`
-        );
+        throw Error(`Ooops, something wrong in Templator => "${preparedTemplate}"`);
 
       if (this.isComponentTagName(tagName)) {
         const componentTree = this.createComponentTree(tagName, props);
 
-        if (tree === null && componentTree !== null) {
-          tree = componentTree;
-          if (tagsArray.length !== 1)
-            throw Error("one root on template or bad tree");
-          break;
-        } else {
-          if (componentTree !== null) {
-            tree.childrens.push(componentTree);
-            componentTree.setParent(tree);
-            // HTML Вставка
-            tree.value.appendChild(componentTree.value);
+        if (componentTree !== null) {
+          if (tree.value.nodeType === NODE_TYPE.FRAGMENT) {
+            tree.fragmentChildrens.push(componentTree);
           }
+          tree.childrens.push(componentTree);
+          componentTree.setParent(tree);
+          // HTML Вставка
+          tree.value.appendChild(componentTree.value);
         }
       } else if (this.isCloseTagName(tagName)) {
         if (stack.size() === 0) {
           throw Error(
-            `Stack is EMPTY => ${preparedTemplate}; || ${tagName}; || ${prevTagInTemplate};`
+            `Stack is EMPTY => ${preparedTemplate}; || ${tagName}; || ${prevTagInTemplate};`,
           );
         }
 
         stack.pop();
-        const text = this.getTextNodeBetweenTag(
-          preparedTemplate,
-          prevTagInTemplate,
-          regTag
-        );
+        const text = this.getTextNodeBetweenTag(preparedTemplate, prevTagInTemplate, regTag);
         if (text !== null && tree !== null) {
           tree.value.appendChild(text);
-          const children = new Tree<HTMLElement | Text | DocumentFragment>(
-            text
-          );
+          const children = new Tree<HTMLElement | Text | DocumentFragment>(text);
+          if (tree.value.nodeType === NODE_TYPE.FRAGMENT) {
+            tree.fragmentChildrens.push(children);
+          }
           tree.childrens.push(children);
           children.setParent(tree);
         }
@@ -91,17 +87,14 @@ export class StringTemplator {
         }
       } else {
         if (stack.size() !== 0) {
-          const text = this.getTextNodeBetweenTag(
-            preparedTemplate,
-            prevTagInTemplate,
-            regTag
-          );
+          const text = this.getTextNodeBetweenTag(preparedTemplate, prevTagInTemplate, regTag);
           if (text !== null && tree !== null) {
             tree.value.appendChild(text);
-            const children = new Tree<HTMLElement | Text | DocumentFragment>(
-              text
-            );
+            const children = new Tree<HTMLElement | Text | DocumentFragment>(text);
             tree.childrens.push(children);
+            if (tree.value.nodeType === NODE_TYPE.FRAGMENT) {
+              tree.fragmentChildrens.push(children);
+            }
             children.setParent(tree);
           }
         }
@@ -110,11 +103,12 @@ export class StringTemplator {
         if (tree === null) {
           tree = new Tree(element);
         } else {
-          const newLeaves = new Tree<HTMLElement | Text | DocumentFragment>(
-            element
-          );
+          const newLeaves = new Tree<HTMLElement | Text | DocumentFragment>(element);
           newLeaves.setParent(tree);
           tree.childrens.push(newLeaves);
+          if (tree.value.nodeType === NODE_TYPE.FRAGMENT) {
+            tree.fragmentChildrens.push(newLeaves);
+          }
           /**
            * HTML Вставка!!!!
            */
@@ -128,21 +122,17 @@ export class StringTemplator {
       prevTagInTemplate = regTag;
     }
 
-    return tree;
+    return {
+      tree,
+      childrenComponents: this._childrenComponents,
+    };
   }
 
-  public textExistBetweenTag(
-    startTag: RegExpMatchArray,
-    endTag: RegExpMatchArray
-  ): boolean {
+  public textExistBetweenTag(startTag: RegExpMatchArray, endTag: RegExpMatchArray): boolean {
     return (
       (!this.isCloseTagName(startTag[0]) && !this.isCloseTagName(endTag[0])) ||
-      (startTag !== null &&
-        this.isCloseTagName(startTag[0]) &&
-        !this.isCloseTagName(endTag[0])) ||
-      (startTag !== null &&
-        this.isCloseTagName(startTag[0]) &&
-        this.isCloseTagName(endTag[0])) ||
+      (startTag !== null && this.isCloseTagName(startTag[0]) && !this.isCloseTagName(endTag[0])) ||
+      (startTag !== null && this.isCloseTagName(startTag[0]) && this.isCloseTagName(endTag[0])) ||
       !this.isCloseTagName(startTag[0])
     );
   }
@@ -167,13 +157,11 @@ export class StringTemplator {
   public getTextNodeBetweenTag(
     template: string,
     startTag: RegExpMatchArray,
-    endTag: RegExpMatchArray
+    endTag: RegExpMatchArray,
   ): Text | null {
     if (!this.textExistBetweenTag(startTag, endTag)) return null;
 
-    const text = template
-      .slice((startTag.index ?? 0) + startTag[0].length, endTag.index)
-      .trim();
+    const text = template.slice((startTag.index ?? 0) + startTag[0].length, endTag.index).trim();
 
     return text.length > 0 ? this.createTextElement(text) : null;
   }
@@ -184,7 +172,7 @@ export class StringTemplator {
    */
   public isCloseTagName(tagName: string): boolean {
     if (tagName.length === 0) return false;
-    return tagName.trim().slice(1, 3).includes("/");
+    return tagName.trim().slice(1, 3).includes('/');
   }
 
   /**
@@ -192,7 +180,7 @@ export class StringTemplator {
    * @param {string} tag
    */
   private getComponentName(tag: string): string {
-    return Trim(tag, "<>\\//").split(" ")[0].trim();
+    return Trim(tag, '<>\\//').split(' ')[0].trim();
   }
 
   /**
@@ -212,20 +200,18 @@ export class StringTemplator {
    */
   public createComponentTree(
     tagName: string,
-    props: ComponentProps
+    props: ComponentProps,
   ): Tree<HTMLElement | Text | DocumentFragment> | null {
     const newTagName = this.getComponentName(tagName);
     const CustomComponent: new (
       props: ComponentProps,
-      componentList: ComponentList[]
+      componentList: ComponentList[],
     ) => IComponent =
-      (Get(props, newTagName, null) as new (
-        props: ComponentProps
-      ) => IComponent) ??
+      (Get(props, newTagName, null) as new (props: ComponentProps) => IComponent) ??
       this.componentList.find((comp) => comp.name === newTagName)?.value;
 
     if (CustomComponent === null) {
-      throw Error("Component do not get :(");
+      throw Error('Component do not get :(');
     }
 
     if (!CustomComponent) {
@@ -233,7 +219,10 @@ export class StringTemplator {
     }
     const componentProps = this.createPropsByString(tagName, props);
 
-    return new CustomComponent(componentProps, this.componentList).getTree();
+    const component = new CustomComponent(componentProps, this.componentList);
+    this._childrenComponents.push(component);
+
+    return component.getTree();
   }
 
   /**
@@ -242,18 +231,15 @@ export class StringTemplator {
    * @param {string} tagStr
    * @param {ComponentProps} props
    */
-  public createPropsByString(
-    tagStr: string,
-    props: ComponentProps
-  ): ComponentProps {
-    const attributes = Trim(tagStr, "<>//\\").match(this._attrPattern);
+  public createPropsByString(tagStr: string, props: ComponentProps): ComponentProps {
+    const attributes = Trim(tagStr, '<>//\\').match(this._attrPattern);
     if (!attributes || attributes.length === 0) return {};
 
     const res: ComponentProps = {};
 
     for (const attr of attributes) {
-      const [name, value] = attr.split("=");
-      if (value.includes("**") && value.includes("**"))
+      const [name, value] = attr.split('=');
+      if (value.includes('**') && value.includes('**'))
         res[name] = Get(props, Trim(value, `* <>//\\'{}" `));
       else res[name] = this.typeOfValue(Trim(value, `'"<>//\\* `));
     }
@@ -262,29 +248,29 @@ export class StringTemplator {
   }
 
   private typeOfValue(val: string): unknown {
-    if (val === "true") return true;
-    if (val === "false") return false;
+    if (val === 'true') return true;
+    if (val === 'false') return false;
 
-    if (val === "null") return null;
-    if (val === "undefined") return undefined;
+    if (val === 'null') return null;
+    if (val === 'undefined') return undefined;
 
     return val;
   }
 
   private getAttrList(tagName: string): { name: string; value: string }[] {
-    const attrList = Trim(tagName, "<>//\\").match(this._attrPattern);
+    const attrList = Trim(tagName, '<>//\\').match(this._attrPattern);
     if (attrList === null || attrList.length === 0) return [];
 
     const res: { name: string; value: string }[] = [];
 
     attrList.forEach((elem) => {
-      const [attr, values] = elem.split("=");
+      const [attr, values] = elem.split('=');
 
       const trimValues = Trim(values, ` \\//<>=.'"`);
-      if (trimValues === "null" || trimValues === "undefined") return;
+      if (trimValues === 'null' || trimValues === 'undefined') return;
 
       res.push({
-        name: Trim(attr, " \\//<>=."),
+        name: Trim(attr, ' \\//<>=.'),
         value: trimValues,
       });
     });
@@ -299,7 +285,7 @@ export class StringTemplator {
    */
   private createHtmlElement(
     tagNameWithoutEscape: string,
-    children: HTMLElement | Text | null = null
+    children: HTMLElement | Text | null = null,
   ): HTMLElement {
     const tagName = this.getComponentName(tagNameWithoutEscape);
 
@@ -309,11 +295,11 @@ export class StringTemplator {
 
       if (attributes.length) {
         attributes.forEach(({ value, name }) => {
-          if (name === "className")
-            element.classList.add(
-              ...value.split(" ").map((s) => Trim(s, ` '"*<>//\\`))
-            );
-          else element.setAttribute(name, value);
+          if (name === 'className')
+            element.classList.add(...value.split(' ').map((s) => Trim(s, ` '"*<>//\\`)));
+          else {
+            element.setAttribute(name, value);
+          }
         });
       }
 
@@ -359,16 +345,12 @@ export class StringTemplator {
     while ((key = regExp.exec(template))) {
       if (key[1]) {
         const tmplValue = key[1].trim();
-        const data = Get(props, tmplValue, "null");
+        const data = Get(props, tmplValue, 'null');
 
-        if (
-          typeof data === "string" ||
-          typeof data === "number" ||
-          typeof data === "boolean"
-        )
-          template = template.replace(new RegExp(key[0], "gi"), String(data));
+        if (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean')
+          template = template.replace(new RegExp(key[0], 'gi'), String(data));
         if (Array.isArray(data))
-          template = template.replace(new RegExp(key[0], "gi"), data.join(""));
+          template = template.replace(new RegExp(key[0], 'gi'), data.join(''));
       }
     }
 

@@ -1,12 +1,7 @@
 module.exports = {
   transform: {
-    "^.+\\.ts?$": "ts-jest",
+    '^.+\\.ts?$': 'ts-jest',
   },
-  testEnvironment: "jsdom",
-  coveragePathIgnorePatterns: [
-    "/node_modules/",
-    "/dist/",
-    "/src/",
-    "/test/mock/",
-  ],
+  testEnvironment: 'jsdom',
+  coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '/src/', '/test/mock/'],
 };

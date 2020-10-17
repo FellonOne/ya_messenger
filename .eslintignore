@@ -1,0 +1,17 @@
+/build/**
+/coverage/**
+/docs/**
+/jsdoc/**
+/templates/**
+/tests/bench/**
+/tests/fixtures/**
+/tests/performance/**
+/tmp/**
+/test/**
+/node_modules/**
+/dist/**
+/typings/**
+.eslintrc.js
+server.js
+webpack.config.js
+jest.config.js

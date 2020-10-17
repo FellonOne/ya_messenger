@@ -1,5 +1,5 @@
-import { Component } from "../../../Framework/Component";
-import { ComponentList } from "../../../Framework/types";
+import { Component } from '../../../Framework/Component';
+import { ComponentList } from '../../../Framework/types';
 
 type BaseInputProps = {
   value: string;
@@ -9,18 +9,25 @@ type BaseInputProps = {
   placeholder: string;
   withValidation: boolean;
   validationClassName: string;
+  id?: string;
 };
 
 export class BaseInput extends Component {
   public static defaultProps: BaseInputProps;
 
   constructor(props: BaseInputProps, componentList: ComponentList[]) {
-    super(Object.assign(BaseInput.defaultProps, props), componentList);
+    super(
+      {
+        ...BaseInput.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
   }
 
   render(): string {
     const inputTemplate = `
-        <input type="{{ type }}" class="{{ classNames }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}"/>
+        <input id="{{ id }}" name="{{ name }}" value="{{ value }}" type="{{ type }}" class="{{ classNames }}" placeholder="{{ placeholder }}" />
     `;
     if (this.props.withValidation) {
       return (
@@ -34,11 +41,12 @@ export class BaseInput extends Component {
 }
 
 BaseInput.defaultProps = {
-  type: "text",
-  classNames: "",
-  name: "",
-  placeholder: "",
-  value: "",
+  type: 'text',
+  classNames: '',
+  name: '',
+  placeholder: '',
+  value: '',
   withValidation: false,
-  validationClassName: "text-error",
+  validationClassName: 'text-error',
+  id: '',
 };

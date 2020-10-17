@@ -10,12 +10,13 @@ export class ModelMenu {
   private readonly backdrop: HTMLFormElement | null;
   private readonly nav: HTMLFormElement | null;
   private readonly closeButton: HTMLFormElement | null;
+  private readonly isLoading: boolean;
 
   constructor(
     menuButtonClass: string,
     backdropClass: string,
     navClass: string,
-    closeButtonClass: string
+    closeButtonClass: string,
   ) {
     this.classes = {
       menuButtonClass,
@@ -29,39 +30,32 @@ export class ModelMenu {
     this.nav = document.querySelector(`.${navClass}`);
     this.closeButton = document.querySelector(`.${closeButtonClass}`);
 
-    if (!this.menuButton || !this.backdrop || !this.nav || !this.closeButton)
-      throw { message: "nav or closeButton do not exist" };
+    if (!this.menuButton || !this.backdrop || !this.nav || !this.closeButton) {
+      this.isLoading = false;
+    } else {
+      this.isLoading = true;
+    }
 
     this.closeNavAndButton = this.closeNavAndButton.bind(this);
     this.openNavAndButton = this.openNavAndButton.bind(this);
   }
 
-  init() {
-    this.addListener(
-      this.closeButton as HTMLElement,
-      "click",
-      this.closeNavAndButton
-    );
-    this.addListener(
-      this.backdrop as HTMLElement,
-      "click",
-      this.closeNavAndButton
-    );
-    this.addListener(
-      this.menuButton as HTMLElement,
-      "click",
-      this.openNavAndButton
-    );
+  init(): void {
+    if (!this.isLoading) return;
+
+    this.addListener(this.closeButton as HTMLElement, 'click', this.closeNavAndButton);
+    this.addListener(this.backdrop as HTMLElement, 'click', this.closeNavAndButton);
+    this.addListener(this.menuButton as HTMLElement, 'click', this.openNavAndButton);
   }
 
   destroy(): void {
-    this.closeButton?.removeEventListener("click", this.closeNavAndButton);
-    this.backdrop?.removeEventListener("click", this.closeNavAndButton);
-    this.menuButton?.removeEventListener("click", this.openNavAndButton);
+    this.closeButton?.removeEventListener('click', this.closeNavAndButton);
+    this.backdrop?.removeEventListener('click', this.closeNavAndButton);
+    this.menuButton?.removeEventListener('click', this.openNavAndButton);
   }
 
-  addListener(element: HTMLElement, type: string, fn: () => void) {
-    element.addEventListener("click", fn);
+  addListener(element: HTMLElement, type: string, fn: () => void): void {
+    element.addEventListener('click', fn);
   }
 
   closeNavAndButton(): void {
@@ -78,8 +72,8 @@ export class ModelMenu {
 }
 
 export const menuConfig = {
-  menuButtonClass: "contacts-controls__menu",
-  backdropClass: "backdrop",
-  navClass: "left-menu",
-  closeButtonClass: "left-menu__close-button",
+  menuButtonClass: 'contacts-controls__menu',
+  backdropClass: 'backdrop',
+  navClass: 'left-menu',
+  closeButtonClass: 'left-menu__close-button',
 };

@@ -1,7 +1,7 @@
-import { isEmpty } from "../Utils/isEmpty";
+import { isEmpty } from '../Utils/isEmpty';
 
 const onlyLettersPattern = /^[A-Za-zа-яёА-ЯЁ]+$/;
-const badWords = ["дурак", "идиот"];
+const badWords = ['дурак', 'идиот'];
 
 /**
  * Является ли элеменет elem типом Map
@@ -9,7 +9,7 @@ const badWords = ["дурак", "идиот"];
  * @return {boolean}
  */
 export function isMap(elem: unknown): boolean {
-  return Object.prototype.toString.call(elem).includes("Map");
+  return Object.prototype.toString.call(elem).includes('Map');
 }
 
 /**
@@ -18,7 +18,7 @@ export function isMap(elem: unknown): boolean {
  * @return {boolean}
  */
 export function isSet(elem: unknown): boolean {
-  return Object.prototype.toString.call(elem).includes("Set");
+  return Object.prototype.toString.call(elem).includes('Set');
 }
 
 /**
@@ -27,7 +27,7 @@ export function isSet(elem: unknown): boolean {
  * @return {boolean}
  */
 export function isString(elem: unknown): boolean {
-  return typeof elem === "string";
+  return typeof elem === 'string';
 }
 
 /**
@@ -41,7 +41,7 @@ export function hasLengthField(elem: unknown): boolean {
     isSet(elem) ||
     isString(elem) ||
     Array.isArray(elem) ||
-    (typeof elem === "object" && elem !== null && "length" in elem)
+    (typeof elem === 'object' && elem !== null && 'length' in elem)
   );
 }
 
@@ -49,7 +49,7 @@ export function hasLengthField(elem: unknown): boolean {
  * Содержит ли value только буквы
  * @param {String} value
  */
-export function hasOnlyLetters(value: string) {
+export function hasOnlyLetters(value: string): boolean | RegExpMatchArray | null {
   return isString(value) && !isEmpty(value) && value.match(onlyLettersPattern);
 }
 
@@ -57,11 +57,10 @@ export function hasOnlyLetters(value: string) {
  * Содержит ли value плохие слова
  * @param value
  */
-export function hasBadWords(value: unknown) {
+export function hasBadWords(value: unknown): boolean {
   return (
     isString(value) &&
     !isEmpty(value) &&
-    [...badWords].filter((badWord) => (value as string).includes(badWord))
-      .length !== 0
+    [...badWords].filter((badWord) => (value as string).includes(badWord)).length !== 0
   );
 }

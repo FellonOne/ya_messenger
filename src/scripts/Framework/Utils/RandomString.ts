@@ -1,4 +1,4 @@
-const alphabet = ["a", "b", "c", "d", "f", "e", "g", "h", "k", "l"];
+const alphabet = ['a', 'b', 'c', 'd', 'f', 'e', 'g', 'h', 'k', 'l'];
 
 /**
  * Возвращает рандомную строку
@@ -11,5 +11,5 @@ export function GetRandomString(): string {
     if (Math.random() <= 0.75) str.push(alphabet[Number(num)]);
   }
 
-  return `id_${str.join("")}`;
+  return `id_${str.join('')}`;
 }

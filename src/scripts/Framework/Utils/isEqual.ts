@@ -10,10 +10,9 @@ type CustomObject = {
 export function isEqual(a: unknown, b: unknown): boolean {
   if (a === b) return true;
   const isObject = (arg: unknown): arg is CustomObject =>
-    typeof arg === "object" && arg !== null && "toString" in arg;
+    typeof arg === 'object' && arg !== null && 'toString' in arg;
 
-  if ((isObject(a) && !isObject(b)) || (!isObject(a) && isObject(b)))
-    return false;
+  if ((isObject(a) && !isObject(b)) || (!isObject(a) && isObject(b))) return false;
 
   if (isObject(a) && isObject(b)) {
     let good = true;
@@ -21,7 +20,7 @@ export function isEqual(a: unknown, b: unknown): boolean {
     for (const [key, val] of Object.entries(a)) {
       if (!good) break;
 
-      if (typeof b === "object" && b !== null && !b.hasOwnProperty(key)) {
+      if (typeof b === 'object' && b !== null && !b.hasOwnProperty(key)) {
         good = false;
         break;
       }

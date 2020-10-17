@@ -1,7 +1,8 @@
-import { showError } from "./ShowError";
-import { hideError } from "./HideError";
+import { showError } from './ShowError';
+import { hideError } from './HideError';
 
-export function inputValidation(formValidation: Function, ev: Event) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function inputValidation(formValidation: Function, ev: Event): void {
   const input: HTMLInputElement = ev.target as HTMLInputElement;
   if (input === null) return;
 
@@ -15,6 +16,6 @@ export function inputValidation(formValidation: Function, ev: Event) {
   if (res.hasError) {
     showError(res.errors, form, false);
   } else {
-    hideError(form as HTMLFormElement, "text-error", input.name);
+    hideError(form as HTMLFormElement, 'text-error', input.name);
   }
 }

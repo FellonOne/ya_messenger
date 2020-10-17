@@ -1,19 +1,20 @@
-import { Tree } from "./DataStruct/Tree";
-import { StringTemplator } from "./Templator/Templator";
-import { ComponentProps, IComponent, ComponentList } from "./types";
-import { EventBus } from "./Utils/EventBus";
-import { isObject } from "./Utils/isObject";
-import { Reconciliation } from "./Reconciliation";
+import { Tree } from './DataStruct/Tree';
+import { StringTemplator } from './Templator/Templator';
+import { ComponentProps, IComponent, ComponentList } from './types';
+import { EventBus } from './Utils/EventBus';
+import { isObject } from './Utils/isObject';
+import { Reconciliation } from './Reconciliation';
 
 /**
  * Эвенты компонента
  */
+// eslint-disable-next-line comma-dangle
 const enum ComponentEvents {
-  INIT = "init",
-  RENDER = "flow:render",
-  CDM = "flow:component-did-mount",
-  CDU = "flow:component-did-update",
-  CWU = "flow:component-will-unmount",
+  INIT = 'init',
+  RENDER = 'flow:render',
+  CDM = 'flow:component-did-mount',
+  CDU = 'flow:component-did-update',
+  CWU = 'flow:component-will-unmount',
 }
 
 /**
@@ -21,16 +22,23 @@ const enum ComponentEvents {
  */
 export class Component implements IComponent {
   private readonly eventBus: EventBus;
+
   private readonly _props: ComponentProps;
 
   private _parentElement: HTMLElement | Text | DocumentFragment | null;
+
   private _componentTree: Tree<HTMLElement | Text | DocumentFragment> | null;
+
   private readonly _componentList: ComponentList[];
+
+  private _childrenComponents: Component[] = [];
+
+  protected componentDelete = false;
 
   constructor(props: ComponentProps = {}, componentList: ComponentList[] = []) {
     this.eventBus = new EventBus();
 
-    this._props = this.proxyfyProps(props);
+    this._props = Component.proxyfyProps(props);
     this._componentList = componentList;
 
     this._parentElement = null;
@@ -42,13 +50,14 @@ export class Component implements IComponent {
 
   private registerEvents() {
     this.eventBus.on(ComponentEvents.INIT, this.init.bind(this));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.eventBus.on(ComponentEvents.RENDER, this._render.bind(this));
     this.eventBus.on(ComponentEvents.CDM, this._componentDidMount.bind(this));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.eventBus.on(ComponentEvents.CDU, this._componentDidUpdate.bind(this));
-    this.eventBus.on(
-      ComponentEvents.CWU,
-      this._componentWillUnmount.bind(this)
-    );
+    this.eventBus.on(ComponentEvents.CWU, this._componentWillUnmount.bind(this));
   }
 
   private init(): void {
@@ -60,43 +69,49 @@ export class Component implements IComponent {
     this.componentDidMount(this.props);
   }
 
-  public componentDidMount(props: ComponentProps): void {}
+  // eslint-disable-next-line no-unused-vars
+  public componentDidMount(props: ComponentProps): void {
+    // user realisation in nested classes
+  }
 
-  private _componentDidUpdate(
-    oldProps: ComponentProps,
-    newProps: ComponentProps
-  ): void {
+  private _componentDidUpdate(oldProps: ComponentProps, newProps: ComponentProps): void {
     this.componentDidUpdate(oldProps, newProps);
   }
 
-  public componentDidUpdate(
-    oldProps: ComponentProps,
-    newProps: ComponentProps
-  ): void {}
+  // eslint-disable-next-line no-unused-vars
+  public componentDidUpdate(oldProps: ComponentProps, newProps: ComponentProps): void {
+    // user realisation in nested classes
+  }
 
   private _componentWillUnmount(): void {
+    this.componentDelete = true;
+
+    this._childrenComponents.forEach((comp) => {
+      if (comp._componentWillUnmount) comp._componentWillUnmount();
+    });
     this.componentWillUnmount(this._props);
   }
 
-  public componentWillUnmount(props: ComponentProps): void {}
+  // eslint-disable-next-line no-unused-vars
+  public componentWillUnmount(props: ComponentProps): void {
+    // user realisation in nested classes
+  }
 
-  private _componentWillUpdate(
-    oldProps: ComponentProps,
-    newProps: ComponentProps
-  ): void {
+  private _componentWillUpdate(oldProps: ComponentProps, newProps: ComponentProps): void {
     const update = this.componentWillUpdate(oldProps, newProps);
 
     if (update) {
       Object.assign(this.props, newProps);
-      this.eventBus.emit(ComponentEvents.RENDER);
+
+      this.eventBus.emit(ComponentEvents.RENDER, true);
       this.eventBus.emitAsync(ComponentEvents.CDU, oldProps, newProps);
+    } else {
+      console.log(`-------------------> sss`);
     }
   }
 
-  public componentWillUpdate(
-    oldProps: ComponentProps,
-    newProps: ComponentProps
-  ): boolean {
+  // eslint-disable-next-line no-unused-vars
+  public componentWillUpdate(oldProps: ComponentProps, newProps: ComponentProps): boolean {
     return true;
   }
 
@@ -123,29 +138,40 @@ export class Component implements IComponent {
   }
 
   public getTree(): Tree<HTMLElement | Text | DocumentFragment> {
-    if (this._componentTree === null) throw Error("Component tree is null");
+    if (this._componentTree === null) throw Error('Component tree is null');
     return this._componentTree;
   }
 
-  protected _render(): Tree<HTMLElement | Text | DocumentFragment> {
-    const componentTree = new StringTemplator(
+  protected _render(isUpdate = false): Tree<HTMLElement | Text | DocumentFragment> {
+    /**
+     * Если же произошло обновление дерева, скажем потомкам, что они будут демонтированны
+     */
+    if (isUpdate)
+      this._childrenComponents.forEach((comp) => {
+        if (comp._componentWillUnmount) {
+          comp._componentWillUnmount();
+        }
+      });
+
+    const { tree: componentTree, childrenComponents } = new StringTemplator(
       this.render(),
-      this.componentList
+      this.componentList,
     ).compile(this.props);
 
-    if (!componentTree) throw Error("Component tree did not get");
+    if (!componentTree) throw Error('Component tree did not get');
 
     // First Render
     if (!this._componentTree) {
       this._componentTree = componentTree;
 
-      this._parentElement = Tree.getParent<
-        HTMLElement | Text | DocumentFragment
-      >(this._componentTree).value;
+      this._parentElement = Tree.getParent<HTMLElement | Text | DocumentFragment>(
+        this._componentTree,
+      ).value;
     } else {
       new Reconciliation(this._componentTree, componentTree).init();
     }
 
+    this._childrenComponents = childrenComponents as Component[];
     return this._componentTree;
   }
 
@@ -162,14 +188,14 @@ export class Component implements IComponent {
    * Метод, который необходимо реализовать в классе наследнике
    */
   public render(): string {
-    throw Error("method do not implement");
+    throw Error('method do not implement');
   }
 
   /**
    * Проксируем пропсы компонента
    * @param {ComponentProps} props
    */
-  private proxyfyProps(props: ComponentProps): ComponentProps {
+  private static proxyfyProps(props: ComponentProps): ComponentProps {
     return new Proxy(props, {
       set: (target: ComponentProps, property: string, value: unknown) => {
         target[property] = value;

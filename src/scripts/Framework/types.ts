@@ -1,5 +1,5 @@
-import { Tree } from "./DataStruct/Tree";
-import { ComponentClass } from "./Router/Route";
+import { Tree } from './DataStruct/Tree';
+import { ComponentClass } from './Router/Route';
 
 export type ComponentList = { name: string; value: ComponentClass };
 export type ComponentProps = {

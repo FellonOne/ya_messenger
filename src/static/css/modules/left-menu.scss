@@ -45,7 +45,7 @@
   left: 335px;
   display: none;
 }
-.left-menu__close-button_open {
+.close-button_open {
   display: block;
 }
 
@@ -60,20 +60,22 @@
 }
 
 .account__avatar-menu {
-  background: #3f51b5;
+  background-color: #3f51b5;
   width: 75px;
   height: 75px;
   border-radius: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .account__name-block {
   justify-content: center;
   display: flex;
   flex-direction: column;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-family: "Roboto-Medium", Arial, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 0.77);
-  margin-left: 25px;
+  width: 155px;
 }
 
 .left-menu__navigation {

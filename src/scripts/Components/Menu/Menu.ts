@@ -1,47 +1,91 @@
-import { Component } from "../../Framework/Component";
-import { ModelMenu } from "../../Models/LeftMenu/ModelModel";
-import { ComponentList } from "../../Framework/types";
+import { Component } from '../../Framework/Component';
+import { ModelMenu } from '../../Models/LeftMenu/ModelModel';
+import { ComponentList } from '../../Framework/types';
+import { pagesRoutes } from '../../pages';
+import { isEmpty } from '../../Framework/Utils/isEmpty';
+import { GetRandomString } from '../../Framework/Utils/RandomString';
+import { AuthorizationService } from '../../Services/AuthorizationService';
 
 export type MenuProps = {
   menuList?: { url: string; text: string }[];
   userName?: string;
   userSurname?: string;
   logoutUrl?: string;
+  userAvatar?: string;
   closeButtonContent?: string;
 };
 
 export class Menu extends Component {
   public static defaultProps: MenuProps;
+
+  private readonly _id: string;
   private _menu: ModelMenu | null = null;
 
   constructor(props: MenuProps, componentList: ComponentList[]) {
-    super(Object.assign(Menu.defaultProps, props), componentList);
+    super(
+      {
+        ...Menu.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
+
+    this._id = GetRandomString();
   }
 
-  componentDidMount(props: MenuProps) {
+  /**
+   * Компонент успешно установлен в DOM
+   */
+  componentDidMount(): void {
     this.initializeMenu();
   }
 
-  initializeMenu(): void {
-    this._menu = new ModelMenu(
-      "contacts-controls__menu",
-      "backdrop",
-      "left-menu",
-      "close-button"
-    );
-    this._menu.init();
-  }
-
-  componentWillUpdate(oldProps: MenuProps, newProps: MenuProps): boolean {
+  /**
+   * Компонент будет обновлен (в DOM)
+   */
+  componentWillUpdate(): boolean {
     if (this._menu) {
       this._menu.destroy();
-      this.initializeMenu();
     }
     return true;
   }
 
+  componentDidUpdate(): void {
+    if (this._menu) this._menu.destroy();
+    this.initializeMenu();
+  }
+
+  /**
+   * Компонент будет удален из DOM
+   */
+  componentWillUnmount(): void {
+    if (this._menu) this._menu.destroy();
+  }
+
+  initializeMenu(): void {
+    this._menu = new ModelMenu('contacts-controls__menu', 'backdrop', 'left-menu', 'close-button');
+    this._menu.init();
+  }
+
   render(): string {
-    return `
+    let { userAvatar, userName, userSurname } = this.props as MenuProps;
+
+    const userData = AuthorizationService.getUser();
+    if (userData) {
+      userAvatar = userData.avatar;
+
+      userName = isEmpty(userName) ? '[Укажите имя]' : userName;
+      userSurname = isEmpty(userSurname) ? '[Укажите фамилию]' : userSurname;
+    }
+
+    let userAvatarBlock = `<div class="account__avatar-menu"></div>`;
+    if (userAvatar && !isEmpty(userAvatar)) {
+      userAvatarBlock = `<div 
+                  class="account__avatar-menu" 
+                  style="background-image: url('https://ya-praktikum.tech${userAvatar}')"
+                 ></div>`;
+    }
+    return ` 
       <nav class="left-menu">
         <Button
           classNames="left-menu__close-button close-button"
@@ -50,10 +94,10 @@ export class Menu extends Component {
         
         <header class="left-menu__account account">
           <div class="account__container">
-            <div class="account__avatar-menu"></div>
+            ${userAvatarBlock}
             <div class="account__name-block">
-              <span>{{ userName }}</span>
-              <span>{{ userSurname }}</span>
+              <span>${userName}</span>
+              <span>${userSurname}</span>
             </div>
           </div>
         </header>
@@ -66,7 +110,10 @@ export class Menu extends Component {
           </ul>
     
           <footer class="left-menu__footer">
-            <a href="{{ logoutUrl }}">Выйти</a> 
+            <RouterComponent
+              linkText="Выйти"
+              page="{{ logoutUrl }}"
+            />
           </footer>
         </section>
       </nav>
@@ -77,9 +124,10 @@ export class Menu extends Component {
 }
 
 Menu.defaultProps = {
-  logoutUrl: "#",
+  logoutUrl: pagesRoutes.LOGOUT,
   menuList: [],
-  userName: "",
-  userSurname: "",
+  userName: '',
+  userSurname: '',
+  userAvatar: '',
   closeButtonContent: `<i class="fa fa-times"></i>`,
 };

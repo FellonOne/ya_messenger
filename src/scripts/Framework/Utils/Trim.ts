@@ -16,9 +16,9 @@ export function Trim(str: string, pattern: string | null = null): string {
     };
   };
 
-  const res = str.split("").reduce(redFunc(), [] as string[]);
+  const res = str.split('').reduce(redFunc(), [] as string[]);
   return res
     .reduceRight(redFunc(), [] as string[])
     .reverse()
-    .join("");
+    .join('');
 }

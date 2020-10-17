@@ -1,50 +1,46 @@
-import { Component } from "../../Framework/Component";
-import { ComponentProps } from "../../Framework/types";
-import { FormControl } from "../../Framework/FormControl/FormControl";
-import { inputValidation } from "../../Framework/FormControl/InputValidation";
-import { submitFormValidation } from "../Settings/Validation/SubmitFormValidation";
-import { authorizationUser } from "./Service/AuthorizationUser";
+import { Component } from '../../Framework/Component';
+import { FormControl } from '../../Framework/FormControl/FormControl';
+import { inputValidation } from '../../Framework/FormControl/InputValidation';
+import { submitFormValidation } from '../Settings/Validation/SubmitFormValidation';
+import { authorizationUser } from './Service/AuthorizationUser';
 
 export class Login extends Component {
   private _formControl: FormControl | null = null;
 
-  componentDidMount(props: ComponentProps) {
+  componentDidMount(): void {
     this.initFormControl();
   }
 
   initFormControl(): void {
     const formElement: HTMLFormElement = document.querySelector(
-      `.authentication__form`
+      `.authentication__form`,
     ) as HTMLFormElement;
     if (formElement === null) return;
 
-    this._formControl = new FormControl(formElement, [
-      "login",
-      "password",
-    ]).init();
+    this._formControl = new FormControl(formElement, ['login', 'password']).init();
     this._formControl.subscribe(authorizationUser);
 
     /**
      * Передаем инпутам контекс правил валидации формы
      */
-    this._formControl.subscribeOnBlur(
-      inputValidation.bind(null, submitFormValidation)
-    );
-    this._formControl.subscribeOnFocus(
-      inputValidation.bind(null, submitFormValidation)
-    );
+    this._formControl.subscribeOnBlur(inputValidation.bind(null, submitFormValidation));
+    this._formControl.subscribeOnFocus(inputValidation.bind(null, submitFormValidation));
   }
 
-  componentWillUpdate(
-    oldProps: ComponentProps,
-    newProps: ComponentProps
-  ): boolean {
+  destroyFormControl(): void {
     if (this._formControl !== null) {
       this._formControl.destroy();
       this.initFormControl();
     }
+  }
 
+  componentWillUpdate(): boolean {
+    this.destroyFormControl();
     return true;
+  }
+
+  componentWillUnmount(): void {
+    this.destroyFormControl();
   }
 
   render(): string {

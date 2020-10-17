@@ -1,16 +1,16 @@
-import { CustomObject } from "./Fetch";
+import { CustomObject } from './Fetch';
 
-export function queryStringify(data: CustomObject = {}) {
-  let resString = "?";
+export function queryStringify(data: CustomObject = {}): string {
+  let resString = '?';
 
-  if (typeof data !== "object") return "";
+  if (typeof data !== 'object') return '';
 
   const entries = Object.entries(data);
-  if (entries.length === 0) return "";
+  if (entries.length === 0) return '';
 
   entries.forEach(([key, value], i, arr) => {
     if (Array.isArray(value)) {
-      resString += `${key}=${value.join(",")}`;
+      resString += `${key}=${value.join(',')}`;
     } else {
       resString += `${key}=${value}`;
     }

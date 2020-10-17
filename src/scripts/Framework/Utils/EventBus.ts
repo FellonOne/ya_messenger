@@ -6,7 +6,7 @@ export class EventBus {
    * Все слушатели шины
    */
   private readonly listeners: {
-    [key: string]: Function[];
+    [key: string]: ((...args: unknown[]) => unknown)[];
   } = {};
 
   /**
@@ -40,7 +40,7 @@ export class EventBus {
    * @param {string} eventName
    * @param {Function} fn
    */
-  on(eventName: string, fn: Function): this {
+  on(eventName: string, fn: (...args: unknown[]) => unknown): this {
     if (this.listeners[eventName] === undefined) this.listeners[eventName] = [];
 
     const exist = this.listeners[eventName].find((el) => el === fn);
@@ -54,11 +54,9 @@ export class EventBus {
    * @param {string} eventName
    * @param {Function} fn
    */
-  off(eventName: string, fn: Function): this {
+  off(eventName: string, fn: (...args: unknown[]) => unknown): this {
     if (Array.isArray(this.listeners[eventName])) {
-      this.listeners[eventName] = this.listeners[eventName].filter(
-        (cb) => cb !== fn
-      );
+      this.listeners[eventName] = this.listeners[eventName].filter((cb) => cb !== fn);
     }
 
     return this;

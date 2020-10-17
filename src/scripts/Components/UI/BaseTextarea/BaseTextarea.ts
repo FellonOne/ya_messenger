@@ -1,5 +1,5 @@
-import { Component } from "../../../Framework/Component";
-import { ComponentList } from "../../../Framework/types";
+import { Component } from '../../../Framework/Component';
+import { ComponentList } from '../../../Framework/types';
 
 type BaseTextareaProps = {
   value: string;
@@ -13,7 +13,13 @@ export class BaseTextarea extends Component {
   public static defaultProps: BaseTextareaProps;
 
   constructor(props: BaseTextareaProps, componentList: ComponentList[]) {
-    super(Object.assign(BaseTextarea.defaultProps, props), componentList);
+    super(
+      {
+        ...BaseTextarea.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
   }
 
   render(): string {
@@ -31,9 +37,9 @@ export class BaseTextarea extends Component {
 }
 
 BaseTextarea.defaultProps = {
-  classNames: "",
-  name: "",
-  value: "value",
+  classNames: '',
+  name: '',
+  value: 'value',
   withValidation: false,
-  validationClassName: "text-error",
+  validationClassName: 'text-error',
 };

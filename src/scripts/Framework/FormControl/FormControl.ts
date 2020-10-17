@@ -1,6 +1,9 @@
 export class FormControl {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private subscribers: Function[] = [];
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private subscribersOnFocus: Function[] = [];
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private subscribersOnBlur: Function[] = [];
 
   constructor(private formElement: HTMLFormElement, private fields: string[]) {
@@ -17,16 +20,10 @@ export class FormControl {
    * Уничтожаем всех подписчиков
    */
   public destroy(): void {
-    this.formElement.removeEventListener("submit", this._eventSubmitFunction);
+    this.formElement.removeEventListener('submit', this._eventSubmitFunction);
     this.fields.forEach((field) => {
-      this.formElement[field].removeEventListener(
-        "focus",
-        this._eventFocusFunction
-      );
-      this.formElement[field].removeEventListener(
-        "blur",
-        this._eventBlurFunction
-      );
+      this.formElement[field].removeEventListener('focus', this._eventFocusFunction);
+      this.formElement[field].removeEventListener('blur', this._eventBlurFunction);
     });
   }
 
@@ -34,9 +31,9 @@ export class FormControl {
    * Инициализируем управление формой
    * @param eventName
    */
-  public init(eventName = "submit") {
+  public init(eventName = 'submit') {
     switch (eventName) {
-      case "submit": {
+      case 'submit': {
         this.formElement.addEventListener(eventName, this._eventSubmitFunction);
         break;
       }
@@ -55,7 +52,7 @@ export class FormControl {
 
   private _focus() {
     this.fields.forEach((key) => {
-      this.formElement[key].addEventListener("focus", this._eventFocusFunction);
+      this.formElement[key].addEventListener('focus', this._eventFocusFunction);
     });
 
     return this;
@@ -63,7 +60,7 @@ export class FormControl {
 
   private _blur() {
     this.fields.forEach((key) => {
-      this.formElement[key].addEventListener("blur", this._eventBlurFunction);
+      this.formElement[key].addEventListener('blur', this._eventBlurFunction);
     });
 
     return this;
@@ -99,6 +96,7 @@ export class FormControl {
    * @param data
    */
   private emitAll(data: unknown) {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     this.subscribers.forEach((fn: Function) => fn(data, this.formElement));
   }
 
@@ -108,6 +106,7 @@ export class FormControl {
    * @param {Event} ev
    */
   private emitAllOnBlur(ev: Event) {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     this.subscribersOnBlur.forEach((fn: Function) => fn(ev, this.formElement));
   }
 
@@ -117,6 +116,7 @@ export class FormControl {
    * @param {Event} ev
    */
   private emitAllOnFocus(ev: Event) {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     this.subscribersOnFocus.forEach((fn: Function) => fn(ev, this.formElement));
   }
 
@@ -124,6 +124,7 @@ export class FormControl {
    * Подписываем подписку на событие submit формы
    * @param fn
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   public subscribe(fn: Function) {
     this.subscribers.push(fn);
     return this;
@@ -133,6 +134,7 @@ export class FormControl {
    * Подписываем подписку на событие submit формы
    * @param fn
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   subscribeSubmit(fn: Function) {
     this.subscribers.push(fn);
     return this;
@@ -143,6 +145,7 @@ export class FormControl {
    * каждого элемента
    * @param fn
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   subscribeOnFocus(fn: Function) {
     this.subscribersOnFocus.push(fn);
     return this;
@@ -153,6 +156,7 @@ export class FormControl {
    * каждого элемента
    * @param fn
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   subscribeOnBlur(fn: Function) {
     this.subscribersOnBlur.push(fn);
     return this;
@@ -162,6 +166,7 @@ export class FormControl {
    * Отписываем функцию от подписки
    * @param fn
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   unsubscribe(fn: Function) {
     this.subscribers = this.subscribers.filter((f) => f !== fn);
     this.subscribersOnBlur = this.subscribersOnBlur.filter((f) => f !== fn);

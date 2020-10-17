@@ -1,51 +1,66 @@
-import { Component } from "../../Framework/Component";
-import { FormControl } from "../../Framework/FormControl/FormControl";
-import { ComponentProps } from "../../Framework/types";
-import { inputValidation } from "../../Framework/FormControl/InputValidation";
-import { submitFormValidation } from "../Settings/Validation/SubmitFormValidation";
-import { registerUser } from "./Service/RegisterUser";
+import { Component } from '../../Framework/Component';
+import { FormControl } from '../../Framework/FormControl/FormControl';
+import { inputValidation } from '../../Framework/FormControl/InputValidation';
+import { submitFormValidation } from '../Settings/Validation/SubmitFormValidation';
+import { registerUser } from './Service/RegisterUser';
 
 export class Register extends Component {
   private _formControl: FormControl | null = null;
 
-  componentDidMount(props: ComponentProps) {
+  componentDidMount(): void {
     this.initFormControl();
+    console.log(`--- Register did mount ---`);
   }
 
   initFormControl(): void {
     const formElement: HTMLFormElement = document.querySelector(
-      `.registration-form`
+      `.registration-form`,
     ) as HTMLFormElement;
     if (formElement === null) return;
 
-    const form = new FormControl(formElement, [
-      "login",
-      "password",
-      "confirmPassword",
+    this._formControl = new FormControl(formElement, [
+      'login',
+      'email',
+      'phone',
+      'password',
     ]).init();
 
-    form.subscribe(registerUser);
+    this._formControl.subscribe(registerUser);
 
     /**
      * Передаем инпутам контекс правил валидации формы
      */
-    form.subscribeOnBlur(inputValidation.bind(null, submitFormValidation));
-    form.subscribeOnFocus(inputValidation.bind(null, submitFormValidation));
+    this._formControl.subscribeOnBlur(inputValidation.bind(null, submitFormValidation));
+    this._formControl.subscribeOnFocus(inputValidation.bind(null, submitFormValidation));
   }
 
-  componentWillUpdate(
-    oldProps: ComponentProps,
-    newProps: ComponentProps
-  ): boolean {
+  componentWillUpdate(): boolean {
+    console.log(`--- Register will update ---`);
     if (this._formControl !== null) {
       this._formControl.destroy();
-      this.initFormControl();
     }
 
     return true;
   }
 
+  componentWillUnmount(): void {
+    console.log(`--- Register will Unmount ---`);
+    if (this._formControl !== null) {
+      this._formControl.destroy();
+    }
+  }
+
+  componentDidUpdate(): void {
+    console.log(`--- Register did Update ---`);
+    if (this._formControl !== null) {
+      this._formControl.destroy();
+    }
+
+    this.initFormControl();
+  }
+
   render(): string {
+    console.log(`--- Register render ---`);
     return `
       <section class="authentication messenger__authentication">
         <div class="authentication__container">

@@ -1,6 +1,6 @@
-import { Component } from "../Framework/Component";
-import { ComponentList } from "../Framework/types";
-import { pagesRoutes } from "../pages";
+import { Component } from '../Framework/Component';
+import { ComponentList } from '../Framework/types';
+import { pagesRoutes } from '../pages';
 
 type RegisterFormProps = {
   formClassName: string;
@@ -11,7 +11,13 @@ export class RegisterForm extends Component {
   public static defaultProps: RegisterFormProps;
 
   constructor(props: RegisterFormProps, componentList: ComponentList[]) {
-    super(Object.assign(RegisterForm.defaultProps, props), componentList);
+    super(
+      {
+        ...RegisterForm.defaultProps,
+        ...props,
+      },
+      componentList,
+    );
   }
 
   render(): string {
@@ -23,26 +29,36 @@ export class RegisterForm extends Component {
             name="login"
             type="text"
             placeholder="Придумайте логин"
-            withValidation="true" 
+            withValidation="true"
           />
-          
-           <BaseInput
+
+          <BaseInput
+            classNames="base-input"
+            name="email"
+            type="email"
+            placeholder="Ваш email"
+            withValidation="true"
+          />
+
+          <BaseInput
+            classNames="base-input"
+            name="phone"
+            type="phone"
+            placeholder="Ваш телефон"
+            withValidation="true"
+          />
+
+          <BaseInput
             classNames="base-input"
             name="password"
             type="password"
-            placeholder="Придумайте пароль"
-            withValidation="true" 
+            placeholder="Ваш пароль"
+            withValidation="true"
           />
-          
-          <BaseInput
-            classNames="base-input"
-            name="confirmPassword"
-            type="password"
-            placeholder="Повторите пароль"
-            withValidation="true" 
-          />
+
+          <span class="default__text-error text-error" style="padding-bottom: 0"></span>
         </div>
-    
+
         <footer class="authentication__buttons data_controls">
           <RouterComponent
             linkText="Авторизация"
@@ -61,6 +77,6 @@ export class RegisterForm extends Component {
 }
 
 RegisterForm.defaultProps = {
-  formClassName: "registration-form",
+  formClassName: 'registration-form',
   loginRoute: pagesRoutes.LOGIN,
 };
