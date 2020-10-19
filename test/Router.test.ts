@@ -20,14 +20,26 @@ describe('### Testing Router Module', () => {
     const mockForwardFn = jest.fn();
 
     fakeHistory.back = mockBackFn;
+
+    router.go('/test');
+    router.back();
+
+    expect(mockBackFn.mock.calls.length).toBe(1);
+  });
+
+  it('TEST #3: testing forward functional', () => {
+    const router = new Router(fakeHistory, FakeRoute);
+    router.use('/', {} as ComponentClass, {}, []);
+    router.use('/test', {} as ComponentClass, {}, []);
+    router.start();
+
+    const mockForwardFn = jest.fn();
+
     fakeHistory.forward = mockForwardFn;
 
     router.go('/test');
-
-    router.back();
     router.forward();
 
-    expect(mockBackFn.mock.calls.length).toBe(1);
     expect(mockForwardFn.mock.calls.length).toBe(1);
-  });
+  })
 });

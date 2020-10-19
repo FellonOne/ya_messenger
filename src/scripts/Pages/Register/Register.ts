@@ -9,7 +9,6 @@ export class Register extends Component {
 
   componentDidMount(): void {
     this.initFormControl();
-    console.log(`--- Register did mount ---`);
   }
 
   initFormControl(): void {
@@ -35,7 +34,6 @@ export class Register extends Component {
   }
 
   componentWillUpdate(): boolean {
-    console.log(`--- Register will update ---`);
     if (this._formControl !== null) {
       this._formControl.destroy();
     }
@@ -44,14 +42,12 @@ export class Register extends Component {
   }
 
   componentWillUnmount(): void {
-    console.log(`--- Register will Unmount ---`);
     if (this._formControl !== null) {
       this._formControl.destroy();
     }
   }
 
   componentDidUpdate(): void {
-    console.log(`--- Register did Update ---`);
     if (this._formControl !== null) {
       this._formControl.destroy();
     }
@@ -60,7 +56,6 @@ export class Register extends Component {
   }
 
   render(): string {
-    console.log(`--- Register render ---`);
     return `
       <section class="authentication messenger__authentication">
         <div class="authentication__container">

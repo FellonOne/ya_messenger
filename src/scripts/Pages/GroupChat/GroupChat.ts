@@ -4,12 +4,11 @@ import { loadConversation } from '../Messenger/Service/Conversation';
 import { ConversationService } from '../../Services/ConversationService';
 import { Chat } from '../../Services/ChatService';
 import { isEmpty } from '../../Framework/Utils/isEmpty';
-import { DeleteUserFromChat } from '../../API/DeleteUserFromChat';
 import { router } from '../../router';
 import { pagesRoutes } from '../../pages';
 import { submitFormValidation } from '../Settings/Validation/SubmitFormValidation';
-import { AddUserInChat } from '../../API/AddUserInChat';
-import { FindUserByLogin } from '../../API/FindUserByLogin';
+import { UserAPI } from '../../API/UserAPI';
+import { ChatAPI } from '../../API/ChatAPI';
 
 type GroupChatProps = {
   backLinkText?: string;
@@ -109,13 +108,13 @@ export class GroupChat extends Component {
       isLoading: true,
     });
 
-    new FindUserByLogin(input.value).perform().then((result) => {
+    UserAPI.findUserByLogin(input.value).then((result) => {
       if (result.state) {
         const user = result.user;
         const { chatId } = this.props as GroupChatProps;
 
         if (user && chatId) {
-          new AddUserInChat(chatId, [user.id]).perform().then((result) => {
+          ChatAPI.addUserInChat(chatId, [user.id]).then((result) => {
             if (result.state) {
               this.updateChat();
             } else {
@@ -145,7 +144,7 @@ export class GroupChat extends Component {
       isLoading: true,
     });
 
-    new DeleteUserFromChat(chatId, [parseInt(userId)]).perform().then((res) => {
+    ChatAPI.deleteUserFromChat(chatId, [parseInt(userId)]).then((res) => {
       console.log(res);
 
       if (res.state) {
@@ -236,14 +235,14 @@ export class GroupChat extends Component {
               classNames="create-chat__input"
               id="chat-user-login-input"
             />
-            
+
             <Button
               textContent="Добавить"
               classNames="create-chat__button"
               buttonId="add-user-button"
             />
           </li>
-          
+
           ${contactsList}
         </ul>
       `;
@@ -263,8 +262,6 @@ export class GroupChat extends Component {
       `;
     }
 
-    console.log(`--- GroupChat render ---`);
-
     return `
         <section class="conversation">
           <header class="interlocutor">
@@ -272,15 +269,15 @@ export class GroupChat extends Component {
               ${chatInfo}
             </div>
           </header>
-          
+
           <div class="messages">
-            <div class="messages__black-container"> 
+            <div class="messages__black-container">
               Упппссс, в данный момент <br />
               процесс общения не реализован :(
             </div>
           </div>
         </section>
-        
+
         <section class="right-aside">
           <div class="contacts">
             ${usersInGroup}

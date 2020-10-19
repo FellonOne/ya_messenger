@@ -4,9 +4,9 @@ import { FormControl } from '../../Framework/FormControl/FormControl';
 import { inputValidation } from '../../Framework/FormControl/InputValidation';
 import { submitFormValidation } from './Validation/SubmitFormValidation';
 import { sendPersonData } from './Service/SendPersonData';
-import { GetUser } from '../../API/GetUser';
 import { AuthorizationService } from '../../Services/AuthorizationService';
 import { updateAvatarHandler } from './Service/UpdateAvatar';
+import { UserAPI } from '../../API/UserAPI';
 
 type SettingsProps = {
   buttonText?: string;
@@ -31,7 +31,7 @@ export class Settings extends Component {
     this.initFormControl();
     this.initUpdateAvatarControl();
 
-    new GetUser().perform().then((userData) => {
+    UserAPI.getUser().then((userData) => {
       if (userData) {
         this.setProps({
           userName: userData.name,
@@ -112,24 +112,24 @@ export class Settings extends Component {
     return `
       <section class="settings messenger__settings">
         <div class="settings__container">
-          <header class="settings__header"> 
+          <header class="settings__header">
           <h5 class="settings__title">Настройки</h5>
-          <RouterComponent 
-            classNames="settings__close-button close-button" 
+          <RouterComponent
+            classNames="settings__close-button close-button"
             page="/"
             linkText="**buttonText**"
           />
           </header>
-          <SettingsForm 
+          <SettingsForm
             formClassName="settings-form"
             userName="{{ userName }}"
             userSurname="{{ userSurname }}"
             userDisplayName="{{ userDisplayName }}"
             userAvatar="{{ userAvatar }}"
-            
+
             changeAvatarFormName="changeAvatarForm"
             changeAvatarInputName="avatar"
-          /> 
+          />
         </div>
       </section>
     `;

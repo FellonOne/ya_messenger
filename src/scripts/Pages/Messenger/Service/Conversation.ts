@@ -1,6 +1,6 @@
 import { Chat } from '../../../Services/ChatService';
-import { GetChatById } from '../../../API/GetChatById';
 import { convertErrorFromAPI } from '../../../Utils/convertErrorFromAPI';
+import { ChatAPI } from '../../../API/ChatAPI';
 
 type LoadConversationResult = {
   state: boolean;
@@ -9,7 +9,7 @@ type LoadConversationResult = {
 
 export async function loadConversation(chatId: number): Promise<LoadConversationResult> {
   try {
-    const response = await new GetChatById(chatId).perform();
+    const response = await ChatAPI.getChatById(chatId);
 
     if (!response.state) {
       throw convertErrorFromAPI(response.errors);

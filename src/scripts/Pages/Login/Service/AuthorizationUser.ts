@@ -2,12 +2,11 @@ import { submitFormValidation } from '../../Settings/Validation/SubmitFormValida
 import { hideError } from '../../../Framework/FormControl/HideError';
 import { showError } from '../../../Framework/FormControl/ShowError';
 import { ValidatorUserData } from '../../../Framework/Validator/Validator';
-import { Authorization } from '../../../API/Authorization';
 import { convertErrorFromAPI } from '../../../Utils/convertErrorFromAPI';
 import { AuthorizationService, User } from '../../../Services/AuthorizationService';
 import { router } from '../../../router';
 import { pagesRoutes } from '../../../pages';
-import { GetUser } from '../../../API/GetUser';
+import { UserAPI } from '../../../API/UserAPI';
 
 export async function authorizationUser(
   data: ValidatorUserData,
@@ -22,14 +21,14 @@ export async function authorizationUser(
     /**
      * Отправляем данные на сервер
      */
-    const responseAuth = await new Authorization(data.login, data.password).perform();
+    const responseAuth = await UserAPI.authorization(data.login, data.password);
 
     if (!responseAuth.state) {
       const errorsObj = convertErrorFromAPI(responseAuth.errors);
       throw { errors: errorsObj };
     }
 
-    const userData: User | null = await new GetUser().perform();
+    const userData: User | null | undefined = await UserAPI.getUser();
     if (!userData) {
       throw { errors: { default: 'Сервер не отвечает :(' } };
     }
@@ -37,7 +36,6 @@ export async function authorizationUser(
     AuthorizationService.authorize(userData);
     router.go(pagesRoutes.MAIN_PAGE);
   } catch (error) {
-    console.log(error);
     showError(error.errors, formElement);
   }
 }

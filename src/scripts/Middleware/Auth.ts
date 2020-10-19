@@ -1,6 +1,6 @@
 import { Middleware } from './interface/Middleware';
-import { GetUser } from '../API/GetUser';
 import { AuthorizationService } from '../Services/AuthorizationService';
+import { UserAPI } from '../API/UserAPI';
 
 export class Auth implements Middleware {
   constructor(private readonly reverse: boolean = false) {}
@@ -9,7 +9,7 @@ export class Auth implements Middleware {
       const isLogin = AuthorizationService.getUser();
       if (!isLogin) return this.reverse;
 
-      const res = await new GetUser().perform();
+      const res = await UserAPI.getUser();
       if (res === null) return this.reverse;
 
       return !this.reverse;

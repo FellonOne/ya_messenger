@@ -1,9 +1,9 @@
-import { CreateChat } from '../../../API/CreateChat';
 import { convertErrorFromAPI } from '../../../Utils/convertErrorFromAPI';
+import { ChatAPI } from '../../../API/ChatAPI';
 
 export async function createChat(chatName: string): Promise<boolean> {
   try {
-    const response = await new CreateChat(chatName).perform();
+    const response = await ChatAPI.createChat(chatName);
     if (!response.state) {
       throw convertErrorFromAPI(response.errors);
     }

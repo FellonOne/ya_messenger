@@ -17,9 +17,20 @@ type FetchOptions = {
   header?: CustomObject;
 };
 
-export class Fetch {
+class _Fetch {
+  private static instance: _Fetch;
   // Инъекция объекта для управления запросами
-  constructor(private API: new () => XMLHttpRequest = XMLHttpRequest) {}
+  constructor(private API: new () => XMLHttpRequest = XMLHttpRequest) {
+    if (_Fetch && _Fetch.instance) {
+      return _Fetch.instance;
+    }
+    _Fetch.instance = this;
+  }
+
+  public setApi(api: new () => XMLHttpRequest = XMLHttpRequest): this {
+    this.API = api;
+    return this;
+  }
 
   public get = (url: string, options: FetchOptions = {}) => {
     return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
@@ -93,3 +104,5 @@ export class Fetch {
     });
   };
 }
+
+export const Fetch = new _Fetch();

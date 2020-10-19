@@ -2,11 +2,11 @@ import { submitFormValidation } from '../../Settings/Validation/SubmitFormValida
 import { hideError } from '../../../Framework/FormControl/HideError';
 import { showError } from '../../../Framework/FormControl/ShowError';
 import { ValidatorUserData } from '../../../Framework/Validator/Validator';
-import { RegistrationAPI } from '../../../API/Registration';
 import { AuthorizationService, User } from '../../../Services/AuthorizationService';
 import { router } from '../../../router';
 import { pagesRoutes } from '../../../pages';
 import { convertErrorFromAPI } from '../../../Utils/convertErrorFromAPI';
+import { UserAPI } from '../../../API/UserAPI';
 
 export async function registerUser(
   data: ValidatorUserData,
@@ -28,12 +28,12 @@ export async function registerUser(
       phone: string;
     };
 
-    const registrationResult = await new RegistrationAPI(
+    const registrationResult = await UserAPI.registration(
       userData.login,
       userData.email,
       userData.password,
       userData.phone,
-    ).perform();
+    );
 
     if (!registrationResult.state || !registrationResult.user) {
       const errorsObj = convertErrorFromAPI(registrationResult.errors);

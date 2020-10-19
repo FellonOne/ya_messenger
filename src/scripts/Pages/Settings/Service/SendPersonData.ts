@@ -2,13 +2,12 @@ import { submitFormValidation } from '../Validation/SubmitFormValidation';
 import { hideError } from '../../../Framework/FormControl/HideError';
 import { showError } from '../../../Framework/FormControl/ShowError';
 import { ValidatorUserData } from '../../../Framework/Validator/Validator';
-import { UpdateUser } from '../../../API/UpdateUser';
 import { AuthorizationService, User } from '../../../Services/AuthorizationService';
 import { convertErrorFromAPI } from '../../../Utils/convertErrorFromAPI';
 import { isEmpty } from '../../../Framework/Utils/isEmpty';
-import { UpdatePassword } from '../../../API/UpdatePassword';
 import { router } from '../../../router';
 import { pagesRoutes } from '../../../pages';
+import { UserAPI } from '../../../API/UserAPI';
 
 export async function sendPersonData(
   data: ValidatorUserData,
@@ -64,31 +63,31 @@ export async function sendPersonData(
       throw { errors: { default: 'Произошла ошибка :( ' } };
     }
 
-    const result = await new UpdateUser(
+    const result = await UserAPI.updateUser(
       updateUserData.userName,
       updateUserData.userSurname,
       updateUserData.userDisplayName,
       user.login,
       user.email,
       user.phone,
-    ).perform();
+    );
 
     if (!result.state) {
       const errorsObj = convertErrorFromAPI(result.errors);
       throw { errors: errorsObj };
     }
 
-    const newUser: User | undefined = result.user;
+    const newUser: User | undefined | null = result.user;
     if (newUser) AuthorizationService.authorize(newUser);
 
     /**
      * Обновляем пароль (если он указан)
      */
     if (passwordData.oldPassword && passwordData.newPassword) {
-      const updatePasswordResult = await new UpdatePassword(
+      const updatePasswordResult = await UserAPI.updatePassword(
         passwordData.oldPassword,
         passwordData.newPassword,
-      ).perform();
+      );
 
       if (!updatePasswordResult.state) {
         const errorsObj = convertErrorFromAPI(updatePasswordResult.errors);

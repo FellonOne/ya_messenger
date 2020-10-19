@@ -1,10 +1,10 @@
-import { GetChats } from '../../../API/GetChats';
 import { convertErrorFromAPI } from '../../../Utils/convertErrorFromAPI';
 import { ChatService } from '../../../Services/ChatService';
+import { ChatAPI } from '../../../API/ChatAPI';
 
 export async function getChatsList(): Promise<boolean> {
   try {
-    const responseChatList = await new GetChats().perform();
+    const responseChatList = await ChatAPI.getChats();
 
     if (!responseChatList.state) {
       throw convertErrorFromAPI(responseChatList.errors);

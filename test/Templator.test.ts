@@ -1,24 +1,33 @@
 import { StringTemplator } from '../src/scripts/Framework/Templator/Templator';
 
-describe('### Testing Templator', () => {
-  it('TEST #1: create correct DOM tree', () => {
-    const tmpl = `
+const tmpl = `
       <div>
         <div></div>
         <div></div>
         <div></div>
       </div>
     `;
+
+describe('### Testing Templator', () => {
+  it('TEST #1: templator result must be not null', () => {
     const templator = new StringTemplator(tmpl, []).compile({}).tree;
-
     expect(templator !== null).toBeTruthy();
-    if (templator === null) throw Error('templatro null');
+  });
 
+  it('TEST #2: templator should be create root element', () => {
+    const templator = new StringTemplator(tmpl, []).compile({}).tree;
+    if (templator === null) throw Error('templator null');
     expect(templator.childrens.length).toBe(1);
+  });
+
+  it('TEST #3: correct create children', () => {
+    const templator = new StringTemplator(tmpl, []).compile({}).tree;
+    if (templator === null) throw Error('templator null');
+
     expect(templator.childrens[0].childrens.length).toBe(3);
   });
 
-  it('TEST #2: Create HTML nodes and Text nodes', () => {
+  it('TEST #4: Create HTML nodes and Text nodes', () => {
     const tmpl = `
       <div>
         <div></div>
@@ -28,15 +37,12 @@ describe('### Testing Templator', () => {
       </div>
     `;
     const templator = new StringTemplator(tmpl, []).compile({}).tree;
+    if (templator === null) throw Error('templator null');
 
-    expect(templator !== null).toBeTruthy();
-    if (templator === null) throw Error('templatro null');
-
-    expect(templator.childrens.length).toBe(1);
     expect(templator.childrens[0].childrens.length).toBe(4);
   });
 
-  it('TEST #3: Unknown HTML tag', () => {
+  it('TEST #5: Unknown HTML tag', () => {
     const tmpl = `
       <div>
         <myUniqueTag>
